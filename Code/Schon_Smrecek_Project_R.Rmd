@@ -80,9 +80,9 @@ boxplot(wages$wage,
 ```{r}
 summary(wages$wage)
 
-ggplot(wages) + aes(x = wage) + geom_histogram() + theme_minimal()
+ggplot(wages) + ggtitle("Histogram of wage") + aes(x = wage) + geom_histogram() + theme_minimal()
 
-ggplot(wages) + aes(x = "", y = wage) + geom_boxplot() + theme_minimal()
+ggplot(wages) + ggtitle("Boxplot of wage") + aes(x = "", y = wage) + geom_boxplot() + theme_minimal()
 
 ```
 
