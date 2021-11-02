@@ -1,48 +1,207 @@
 ---
-title: "R Notebook"
+title: "Programovanie pre dátovú vedu: projekt 1"
 output: html_notebook
 ---
 
-This is an [R Markdown](http://rmarkdown.rstudio.com) Notebook. When you execute code within the notebook, the results appear beneath the code. 
+# Zadanie
 
-Try executing this chunk by clicking the *Run* button within the chunk or by placing your cursor inside it and pressing *Ctrl+Shift+Enter*. 
+* Stručne predstavte dáta pomocou SQL-LIKE syntaxe a grafiky „grammar of graphics“. Môžete uviesť počet záznamov, počet atribútov, ich typy a charakteristiky ktoré sú potrebné k tomu, aby ste dokázali vašu hypotézu. Sú pôvodné atribúty použiteľné, alebo je nutné niektoré transformovať na nové ? (napríklad ak mám vzdialenosť a čas, môžem si vypočítať rýchlosť a tú použiť pre ďalšiu fázu), majú dáta hodnoty, ktoré významne vybočujú z priemeru? Má dátaset chýbajúce hodnoty? Ako s nimi budete zaobchádzať? Prečo?
+* V treťom kroku si stanovte jednu hypotézu, ktoré je overiteľná lineárnym regresným modelom a potvrďte ju pomocou krížovej validácie vstupných dát. Pri programovaní nepoužívajte cykly a špeciálne sa zamerajte na centrálne tendencie a rozptyl parametrov β1 a β2.
 
-```
-{r}
-plot(cars)
-```
-
-Add a new chunk by clicking the *Insert Chunk* button on the toolbar or by pressing *Ctrl+Alt+I*.
-
-When you save the notebook, an HTML file containing the code and output will be saved alongside it (click the *Preview* button or press *Ctrl+Shift+K* to preview the HTML file).
-
-The preview shows you a rendered HTML copy of the contents of the editor. Consequently, unlike *Knit*, *Preview* does not run any R code chunks. Instead, the output of the chunk when it was last run in the editor is displayed.
+# Načítanie knižníc a datasetu
 
 ```{r}
 library(tidyverse)
 ```
-```{r}
-```
-
-
-```{r}
-install.packages("readxl")
-```
-
-```{r}
-library(readxl)
-```
-
 
 ```{r}
 wages <- read_csv("Wages.csv")
 wages
 ```
+# Charakteristika dát
+
+## Názvy stĺpcov
 ```{r}
 data.frame(colnames(wages))
 ```
+
+## Ukážka dát v datasete
 ```{r}
+print(wages)
+```
+## Počet riadkov, stĺpcov a typy stĺpcov
+```{r}
+nrow(wages)
+ncol(wages)
 spec(wages)
 ```
+## Význam stĺpcov
+  1. wage                     monthly earnings
+  2. hours                    average weekly hours
+  3. IQ                       IQ score
+  4. KWW                      knowledge of world work score
+  5. educ                     years of education
+  6. exper                    years of work experience
+  7. tenure                   years with current employer
+  8. age                      age in years
+  9. married                  =1 if married
+ 10. black                    =1 if black
+ 11. south                    =1 if live in south
+ 12. urban                    =1 if live in SMSA
+ 13. sibs                     number of siblings
+ 14. brthord                  birth order
+ 15. meduc                    mother's education
+ 16. feduc                    father's education
+ 17. lwage                    natural log of wage
+
+## Ošetrenie chýbajúcich hodnôt
+V pôvodnom datasete boli chýbajúce hodnoty reprezentované bodkami, pre jednoduchšiu prácu sme bodky nahradili NA.
+```{r}
+wages[wages == "."] <- NA
+wages
+```
+## Dáta, ktoré významne vybočujú z priemeru
+
+### wage
+```{r}
+summary(wages$wage)
+
+hist(wages$wage,
+  xlab = "wage",
+  main = "Histogram of wage"
+) # set number of bins
+
+boxplot(wages$wage,
+  ylab = "wage",
+  main = "Boxplot of wage"
+)
+```
+
+```{r}
+summary(wages$wage)
+
+ggplot(wages) + aes(x = wage) + geom_histogram() + theme_minimal()
+
+ggplot(wages) + aes(x = "", y = wage) + geom_boxplot() + theme_minimal()
+
+```
+
+
+### hours
+```{r}
+summary(wages$hours)
+
+hist(wages$hours,
+  xlab = "hours",
+  main = "Histogram of hours"
+) # set number of bins
+
+boxplot(wages$hours,
+  ylab = "hours",
+  main = "Boxplot of hours"
+)
+```
+
+### IQ
+```{r}
+summary(wages$IQ)
+
+hist(wages$IQ,
+  xlab = "IQ",
+  main = "Histogram of IQ"
+) # set number of bins
+
+boxplot(wages$IQ,
+  ylab = "IQ",
+  main = "Boxplot of IQ"
+)
+```
+
+### KWW
+```{r}
+summary(wages$KWW)
+
+hist(wages$KWW,
+  xlab = "KWW",
+  main = "Histogram of KWW"
+) # set number of bins
+
+boxplot(wages$KWW,
+  ylab = "KWW",
+  main = "Boxplot of KWW"
+)
+```
+
+### educ
+```{r}
+summary(wages$educ)
+
+hist(wages$educ,
+  xlab = "educ",
+  main = "Histogram of educ"
+) # set number of bins
+
+boxplot(wages$educ,
+  ylab = "educ",
+  main = "Boxplot of educ"
+)
+```
+
+### exper
+```{r}
+summary(wages$exper)
+
+hist(wages$exper,
+  xlab = "exper",
+  main = "Histogram of exper",
+)
+
+boxplot(wages$exper,
+  ylab = "exper",
+  main = "Boxplot of exper"
+)
+```
+
+### tenure
+```{r}
+summary(wages$tenure)
+
+hist(wages$tenure,
+  xlab = "tenure",
+  main = "Histogram of tenure",
+)
+
+boxplot(wages$tenure,
+  ylab = "tenure",
+  main = "Boxplot of tenure"
+)
+```
+
+### age
+```{r}
+summary(wages$age)
+
+hist(wages$age,
+  xlab = "age",
+  main = "Histogram of age",
+  breaks = max(wages$age)-min(wages$age)
+)
+
+boxplot(wages$age,
+  ylab = "age",
+  main = "Boxplot of age"
+)
+```
+
+## Tranformácia atribútov
+```{r}
+wages %>%
+  mutate(hour_wage = (wage / (hours * 4)))
+  
+```
+```{r}
+sessionInfo()
+```
+
 
 
