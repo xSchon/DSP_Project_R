@@ -13,6 +13,7 @@ output: html_notebook
 ```{r}
 library(tidyverse)
 library(patchwork)
+library(reshape2)
 #library(readxl)
 ```
 
@@ -179,7 +180,8 @@ hour_wage_hist <- ggplot(wages) + ggtitle("Histogram of hour_wage") + aes(x = ho
 hour_wage_box <- ggplot(wages) + ggtitle("Boxplot of hour_wage") + aes(x = "", y = hour_wage) + geom_boxplot() + theme_minimal()
 
 hour_wage_hist + hour_wage_box
-
+```
+```{r}
 identify_outliers <- function(a) {
     lower = quantile(a, 0.25, na.rm = TRUE) - 1.5 * IQR(a);
     upper = quantile(a, 0.75, na.rm = TRUE) + 1.5 * IQR(a);
@@ -191,15 +193,18 @@ identify_outliers <- function(a) {
 }
 
 identify_outliers(wages$hour_wage)
-
 ```
-```{r}
-lower = quantile(wages$hour_wage, 0.25, na.rm = TRUE) - 1.5 * IQR(wages$hour_wage);
-upper = quantile(wages$hour_wage, 0.75, na.rm = TRUE) + 1.5 * IQR(wages$hour_wage);
-    
-standard <- wages[!(wages$hour_wage > upper) | (wages$hour_wage < lower), ]
-standard
 
+```{r}
+
+remove_outliers <- function(a, b){
+  lower = quantile(a, 0.25, na.rm = TRUE) - 1.5 * IQR(a);
+  upper = quantile(a, 0.75, na.rm = TRUE) + 1.5 * IQR(a);
+  standard <- b[!((a > upper) | (a < lower)), ]
+  standard
+}
+
+standard = remove_outliers(wages$hour_wage, wages)
 hour_wage_hist <- ggplot(standard) + ggtitle("Histogram of hour_wage") + aes(x = hour_wage) + geom_histogram() + theme_minimal()
 
 hour_wage_box <- ggplot(standard) + ggtitle("Boxplot of hour_wage") + aes(x = "", y = hour_wage) + geom_boxplot() + theme_minimal()
@@ -221,18 +226,27 @@ $H_1$: Vzťah medzi výškou hodinovej mzdy a dĺžkou vzdelania **existuje**.
 ## Lineárna regresia
 
 ```{r}
-fit <- lm(hour_wage ~ educ, data = standard)
+fit <- lm(hour_wage ~ educ, data = wages)
 summary(fit)
 
-#plot(fit, pch = 16, col = "blue")
-
-ggplot(data = standard, aes(x = hour_wage, y = IQ)) + 
-  geom_point(color='blue') +
-  geom_smooth(method = "lm", se = FALSE)
+plot(fit, pch = 16, col = "blue")
 
 ```
 ```{r}
+ggplot(data = wages, aes(x = hour_wage, y = educ)) + 
+  geom_point(color='blue') +
+  geom_smooth(method = "lm", se = FALSE)
+```
 
+```{r}
+cormat <- round(cor(wages[, !names(wages) %in% c("brthord",	"meduc",	"feduc")] ),3)
+head(cormat)
+melted_cormat <- melt(cormat)
+head(melted_cormat)
+
+ggplot(melted_cormat, aes(Var2, Var1, fill = value)) + 
+  geom_tile() + 
+  geom_text(aes(Var2, Var1, label = value), color = "black", size = 3) 
 ```
 
 
