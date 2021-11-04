@@ -12,11 +12,14 @@ output: html_notebook
 
 ```{r}
 library(tidyverse)
+library(patchwork)
+library(reshape2)
+#library(readxl)
 ```
 
 ```{r}
 wages <- read_csv("Wages.csv")
-wages
+#wages <- read_excel("Wages.xls", sheet = "WAGE2")
 ```
 # Charakteristika dát
 
@@ -27,7 +30,7 @@ data.frame(colnames(wages))
 
 ## Ukážka dát v datasete
 ```{r}
-print(wages)
+head(wages, 10)
 ```
 ## Počet riadkov, stĺpcov a typy stĺpcov
 ```{r}
@@ -60,29 +63,25 @@ V pôvodnom datasete boli chýbajúce hodnoty reprezentované bodkami, pre jedno
 wages[wages == "."] <- NA
 wages
 ```
-## Dáta, ktoré významne vybočujú z priemeru
+```{r}
+sum(is.na(wages))
+na_count <-sapply(wages, function(x) sum(is.na(x)))
+na_count <- data.frame(na_count)
+na_count
+```
+Chýbajúcich hodnôt je 355 a aj to len v stĺpcoch birth order, mother's education a father's education. Tieto chýbajúce hodnoty by nemali ovplyvňovať naše hypotézy.
+
+## Základné charakteristiky dát
 
 ### wage
 ```{r}
 summary(wages$wage)
 
-hist(wages$wage,
-  xlab = "wage",
-  main = "Histogram of wage"
-) # set number of bins
+wage_hist <- ggplot(wages) + ggtitle("Histogram of wage") + aes(x = wage) + geom_histogram() + theme_minimal()
 
-boxplot(wages$wage,
-  ylab = "wage",
-  main = "Boxplot of wage"
-)
-```
+wage_box <- ggplot(wages) + ggtitle("Boxplot of wage") + aes(x = "", y = wage) + geom_boxplot() + theme_minimal()
 
-```{r}
-summary(wages$wage)
-
-ggplot(wages) + ggtitle("Histogram of wage") + aes(x = wage) + geom_histogram() + theme_minimal()
-
-ggplot(wages) + ggtitle("Boxplot of wage") + aes(x = "", y = wage) + geom_boxplot() + theme_minimal()
+wage_hist + wage_box
 
 ```
 
@@ -91,114 +90,166 @@ ggplot(wages) + ggtitle("Boxplot of wage") + aes(x = "", y = wage) + geom_boxplo
 ```{r}
 summary(wages$hours)
 
-hist(wages$hours,
-  xlab = "hours",
-  main = "Histogram of hours"
-) # set number of bins
+hours_hist <- ggplot(wages) + ggtitle("Histogram of hours") + aes(x = hours) + geom_histogram() + theme_minimal()
 
-boxplot(wages$hours,
-  ylab = "hours",
-  main = "Boxplot of hours"
-)
+hours_box <- ggplot(wages) + ggtitle("Boxplot of hours") + aes(x = "", y = hours) + geom_boxplot() + theme_minimal()
+
+hours_hist + hours_box
 ```
 
 ### IQ
 ```{r}
 summary(wages$IQ)
 
-hist(wages$IQ,
-  xlab = "IQ",
-  main = "Histogram of IQ"
-) # set number of bins
+iq_hist <- ggplot(wages) + ggtitle("Histogram of IQ") + aes(x = IQ) + geom_histogram() + theme_minimal()
 
-boxplot(wages$IQ,
-  ylab = "IQ",
-  main = "Boxplot of IQ"
-)
+iq_box <- ggplot(wages) + ggtitle("Boxplot of IQ") + aes(x = "", y = IQ) + geom_boxplot() + theme_minimal()
+
+iq_hist + iq_box
 ```
 
 ### KWW
 ```{r}
 summary(wages$KWW)
 
-hist(wages$KWW,
-  xlab = "KWW",
-  main = "Histogram of KWW"
-) # set number of bins
+kww_hist <- ggplot(wages) + ggtitle("Histogram of KWW") + aes(x = KWW) + geom_histogram() + theme_minimal()
 
-boxplot(wages$KWW,
-  ylab = "KWW",
-  main = "Boxplot of KWW"
-)
+kww_box <- ggplot(wages) + ggtitle("Boxplot of KWW") + aes(x = "", y = KWW) + geom_boxplot() + theme_minimal()
+
+kww_hist + kww_box
 ```
 
 ### educ
 ```{r}
 summary(wages$educ)
 
-hist(wages$educ,
-  xlab = "educ",
-  main = "Histogram of educ"
-) # set number of bins
+educ_hist <- ggplot(wages) + ggtitle("Histogram of educ") + aes(x = educ) + geom_histogram() + theme_minimal()
 
-boxplot(wages$educ,
-  ylab = "educ",
-  main = "Boxplot of educ"
-)
+educ_box <- ggplot(wages) + ggtitle("Boxplot of educ") + aes(x = "", y = educ) + geom_boxplot() + theme_minimal()
+
+educ_hist + educ_box
 ```
 
 ### exper
 ```{r}
 summary(wages$exper)
 
-hist(wages$exper,
-  xlab = "exper",
-  main = "Histogram of exper",
-)
+exper_hist <- ggplot(wages) + ggtitle("Histogram of exper") + aes(x = exper) + geom_histogram() + theme_minimal()
 
-boxplot(wages$exper,
-  ylab = "exper",
-  main = "Boxplot of exper"
-)
+exper_box <- ggplot(wages) + ggtitle("Boxplot of exper") + aes(x = "", y = exper) + geom_boxplot() + theme_minimal()
+
+exper_hist + exper_box
 ```
 
 ### tenure
 ```{r}
 summary(wages$tenure)
 
-hist(wages$tenure,
-  xlab = "tenure",
-  main = "Histogram of tenure",
-)
+tenure_hist <- ggplot(wages) + ggtitle("Histogram of tenure") + aes(x = tenure) + geom_histogram() + theme_minimal()
 
-boxplot(wages$tenure,
-  ylab = "tenure",
-  main = "Boxplot of tenure"
-)
+tenure_box <- ggplot(wages) + ggtitle("Boxplot of tenure") + aes(x = "", y = tenure) + geom_boxplot() + theme_minimal()
+
+tenure_hist + tenure_box
 ```
 
 ### age
 ```{r}
 summary(wages$age)
 
-hist(wages$age,
-  xlab = "age",
-  main = "Histogram of age",
-  breaks = max(wages$age)-min(wages$age)
-)
+age_hist <- ggplot(wages) + ggtitle("Histogram of age") + aes(x = age) + geom_histogram() + theme_minimal()
 
-boxplot(wages$age,
-  ylab = "age",
-  main = "Boxplot of age"
-)
+age_box <- ggplot(wages) + ggtitle("Boxplot of age") + aes(x = "", y = age) + geom_boxplot() + theme_minimal()
+
+age_hist + age_box
 ```
+
+## Dáta, ktoré významne vybočujú z priemeru
+
+Takéto dáta možno vidieť pri stĺpcoch wages, hours, IQ a KWW. Keďže sa jedná o skutočných ľudí.
 
 ## Tranformácia atribútov
+
+Uvažujúc, že stĺpec wages znamená mesačný zárobok a stĺpec hours znamená priemerný odrobený počet hodín za týždeň, môžeme vypočítať hodinovú mzdu pracovníka, ako podiel mesačnej mzdy a štvornásobku priemeru počtu hodín odrobených za týždeň.
+
 ```{r}
-wages %>%
-  mutate(hour_wage = (wage / (hours * 4)))
-  
+wages <- wages %>% mutate(hour_wage = (wage / (hours * 4)))
+wages %>% select(wage, hours, hour_wage, educ) %>% head(10)
+
+hour_wage_hist <- ggplot(wages) + ggtitle("Histogram of hour_wage") + aes(x = hour_wage) + geom_histogram() + theme_minimal()
+
+hour_wage_box <- ggplot(wages) + ggtitle("Boxplot of hour_wage") + aes(x = "", y = hour_wage) + geom_boxplot() + theme_minimal()
+
+hour_wage_hist + hour_wage_box
 ```
+```{r}
+identify_outliers <- function(a) {
+    lower = quantile(a, 0.25, na.rm = TRUE) - 1.5 * IQR(a);
+    upper = quantile(a, 0.75, na.rm = TRUE) + 1.5 * IQR(a);
+    
+    outliers <- a[(a > upper) | (a < lower)];
+    #count(outliers)
+    #order(outliers)
+    outliers
+}
+
+identify_outliers(wages$hour_wage)
+```
+
+```{r}
+
+remove_outliers <- function(a, b){
+  lower = quantile(a, 0.25, na.rm = TRUE) - 1.5 * IQR(a);
+  upper = quantile(a, 0.75, na.rm = TRUE) + 1.5 * IQR(a);
+  standard <- b[!((a > upper) | (a < lower)), ]
+  standard
+}
+
+standard = remove_outliers(wages$hour_wage, wages)
+hour_wage_hist <- ggplot(standard) + ggtitle("Histogram of hour_wage") + aes(x = hour_wage) + geom_histogram() + theme_minimal()
+
+hour_wage_box <- ggplot(standard) + ggtitle("Boxplot of hour_wage") + aes(x = "", y = hour_wage) + geom_boxplot() + theme_minimal()
+
+hour_wage_hist + hour_wage_box
+```
+
+
+# Formulácia a štatistické overenie hypotéz
+
+## Hypotézy
+
+Existuje vzťah medzi výškou hodinovej mzdy a dĺžkou vzdelania?
+
+$H_0$: Vzťah medzi výškou hodinovej mzdy a dĺžkou vzdelania **neexistuje**.
+
+$H_1$: Vzťah medzi výškou hodinovej mzdy a dĺžkou vzdelania **existuje**.
+
+## Lineárna regresia
+
+```{r}
+fit <- lm(hour_wage ~ educ, data = wages)
+summary(fit)
+
+plot(fit, pch = 16, col = "blue")
+
+```
+```{r}
+ggplot(data = wages, aes(x = hour_wage, y = educ)) + 
+  geom_point(color='blue') +
+  geom_smooth(method = "lm", se = FALSE)
+```
+
+```{r}
+cormat <- round(cor(wages[, !names(wages) %in% c("brthord",	"meduc",	"feduc")] ),3)
+head(cormat)
+melted_cormat <- melt(cormat)
+head(melted_cormat)
+
+ggplot(melted_cormat, aes(Var2, Var1, fill = value)) + 
+  geom_tile() + 
+  geom_text(aes(Var2, Var1, label = value), color = "black", size = 3) 
+```
+
+
 ```{r}
 sessionInfo()
 ```
