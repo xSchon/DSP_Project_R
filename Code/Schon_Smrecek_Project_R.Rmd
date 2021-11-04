@@ -164,7 +164,7 @@ age_hist + age_box
 
 ## Dáta, ktoré významne vybočujú z priemeru
 
-Takéto dáta možno vidieť pri stĺpcoch wages, hours, IQ a KWW. Keďže sa jedná o skutočných ľudí, 
+Takéto dáta možno vidieť pri stĺpcoch wages, hours, IQ a KWW. Keďže sa jedná o skutočných ľudí.
 
 ## Tranformácia atribútov
 
@@ -173,7 +173,41 @@ Uvažujúc, že stĺpec wages znamená mesačný zárobok a stĺpec hours znamen
 ```{r}
 wages <- wages %>% mutate(hour_wage = (wage / (hours * 4)))
 wages %>% select(wage, hours, hour_wage, educ) %>% head(10)
+
+hour_wage_hist <- ggplot(wages) + ggtitle("Histogram of hour_wage") + aes(x = hour_wage) + geom_histogram() + theme_minimal()
+
+hour_wage_box <- ggplot(wages) + ggtitle("Boxplot of hour_wage") + aes(x = "", y = hour_wage) + geom_boxplot() + theme_minimal()
+
+hour_wage_hist + hour_wage_box
+
+identify_outliers <- function(a) {
+    lower = quantile(a, 0.25, na.rm = TRUE) - 1.5 * IQR(a);
+    upper = quantile(a, 0.75, na.rm = TRUE) + 1.5 * IQR(a);
+    
+    outliers <- a[(a > upper) | (a < lower)];
+    #count(outliers)
+    #order(outliers)
+    outliers
+}
+
+identify_outliers(wages$hour_wage)
+
 ```
+```{r}
+lower = quantile(wages$hour_wage, 0.25, na.rm = TRUE) - 1.5 * IQR(wages$hour_wage);
+upper = quantile(wages$hour_wage, 0.75, na.rm = TRUE) + 1.5 * IQR(wages$hour_wage);
+    
+standard <- wages[!(wages$hour_wage > upper) | (wages$hour_wage < lower), ]
+standard
+
+hour_wage_hist <- ggplot(standard) + ggtitle("Histogram of hour_wage") + aes(x = hour_wage) + geom_histogram() + theme_minimal()
+
+hour_wage_box <- ggplot(standard) + ggtitle("Boxplot of hour_wage") + aes(x = "", y = hour_wage) + geom_boxplot() + theme_minimal()
+
+hour_wage_hist + hour_wage_box
+```
+
+
 # Formulácia a štatistické overenie hypotéz
 
 ## Hypotézy
@@ -185,6 +219,21 @@ $H_0$: Vzťah medzi výškou hodinovej mzdy a dĺžkou vzdelania **neexistuje**.
 $H_1$: Vzťah medzi výškou hodinovej mzdy a dĺžkou vzdelania **existuje**.
 
 ## Lineárna regresia
+
+```{r}
+fit <- lm(hour_wage ~ educ, data = standard)
+summary(fit)
+
+#plot(fit, pch = 16, col = "blue")
+
+ggplot(data = standard, aes(x = hour_wage, y = IQ)) + 
+  geom_point(color='blue') +
+  geom_smooth(method = "lm", se = FALSE)
+
+```
+```{r}
+
+```
 
 
 ```{r}
