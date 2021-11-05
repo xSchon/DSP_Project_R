@@ -1,12 +1,15 @@
 ---
-title: "Programovanie pre dátovú vedu: projekt 1"
-output: html_notebook
+title: 'Programovanie pre dátovú vedu: projekt 1'
+output:
+  html_document:
+    df_print: paged
+  pdf_document: default
 ---
 
 # Zadanie
 
-* Stručne predstavte dáta pomocou SQL-LIKE syntaxe a grafiky „grammar of graphics“. Môžete uviesť počet záznamov, počet atribútov, ich typy a charakteristiky ktoré sú potrebné k tomu, aby ste dokázali vašu hypotézu. Sú pôvodné atribúty použiteľné, alebo je nutné niektoré transformovať na nové ? (napríklad ak mám vzdialenosť a čas, môžem si vypočítať rýchlosť a tú použiť pre ďalšiu fázu), majú dáta hodnoty, ktoré významne vybočujú z priemeru? Má dátaset chýbajúce hodnoty? Ako s nimi budete zaobchádzať? Prečo?
-* V treťom kroku si stanovte jednu hypotézu, ktoré je overiteľná lineárnym regresným modelom a potvrďte ju pomocou krížovej validácie vstupných dát. Pri programovaní nepoužívajte cykly a špeciálne sa zamerajte na centrálne tendencie a rozptyl parametrov β1 a β2.
+-   Stručne predstavte dáta pomocou SQL-LIKE syntaxe a grafiky „grammar of graphics". Môžete uviesť počet záznamov, počet atribútov, ich typy a charakteristiky ktoré sú potrebné k tomu, aby ste dokázali vašu hypotézu. Sú pôvodné atribúty použiteľné, alebo je nutné niektoré transformovať na nové ? (napríklad ak mám vzdialenosť a čas, môžem si vypočítať rýchlosť a tú použiť pre ďalšiu fázu), majú dáta hodnoty, ktoré významne vybočujú z priemeru? Má dátaset chýbajúce hodnoty? Ako s nimi budete zaobchádzať? Prečo?
+-   V treťom kroku si stanovte jednu hypotézu, ktoré je overiteľná lineárnym regresným modelom a potvrďte ju pomocou krížovej validácie vstupných dát. Pri programovaní nepoužívajte cykly a špeciálne sa zamerajte na centrálne tendencie a rozptyl parametrov β1 a β2.
 
 # Načítanie knižníc a datasetu
 
@@ -14,6 +17,7 @@ output: html_notebook
 library(tidyverse)
 library(patchwork)
 library(reshape2)
+library(gmodels)
 #library(readxl)
 ```
 
@@ -21,59 +25,71 @@ library(reshape2)
 wages <- read_csv("Wages.csv")
 #wages <- read_excel("Wages.xls", sheet = "WAGE2")
 ```
+
 # Charakteristika dát
 
 ## Názvy stĺpcov
+
 ```{r}
 data.frame(colnames(wages))
 ```
 
 ## Ukážka dát v datasete
+
 ```{r}
 head(wages, 10)
 ```
+
 ## Počet riadkov, stĺpcov a typy stĺpcov
+
 ```{r}
 nrow(wages)
 ncol(wages)
 spec(wages)
 ```
+
 ## Význam stĺpcov
-  1. wage                     monthly earnings
-  2. hours                    average weekly hours
-  3. IQ                       IQ score
-  4. KWW                      knowledge of world work score
-  5. educ                     years of education
-  6. exper                    years of work experience
-  7. tenure                   years with current employer
-  8. age                      age in years
-  9. married                  =1 if married
- 10. black                    =1 if black
- 11. south                    =1 if live in south
- 12. urban                    =1 if live in SMSA
- 13. sibs                     number of siblings
- 14. brthord                  birth order
- 15. meduc                    mother's education
- 16. feduc                    father's education
- 17. lwage                    natural log of wage
+
+1.  wage monthly earnings
+2.  hours average weekly hours
+3.  IQ IQ score
+4.  KWW knowledge of world work score
+5.  educ years of education
+6.  exper years of work experience
+7.  tenure years with current employer
+8.  age age in years
+9.  married =1 if married
+10. black =1 if black
+11. south =1 if live in south
+12. urban =1 if live in SMSA
+13. sibs number of siblings
+14. brthord birth order
+15. meduc mother's education
+16. feduc father's education
+17. lwage natural log of wage
 
 ## Ošetrenie chýbajúcich hodnôt
+
 V pôvodnom datasete boli chýbajúce hodnoty reprezentované bodkami, pre jednoduchšiu prácu sme bodky nahradili NA.
+
 ```{r}
 wages[wages == "."] <- NA
 wages
 ```
+
 ```{r}
 sum(is.na(wages))
 na_count <-sapply(wages, function(x) sum(is.na(x)))
 na_count <- data.frame(na_count)
 na_count
 ```
+
 Chýbajúcich hodnôt je 355 a aj to len v stĺpcoch birth order, mother's education a father's education. Tieto chýbajúce hodnoty by nemali ovplyvňovať naše hypotézy.
 
 ## Základné charakteristiky dát
 
 ### wage
+
 ```{r}
 summary(wages$wage)
 
@@ -85,8 +101,8 @@ wage_hist + wage_box
 
 ```
 
-
 ### hours
+
 ```{r}
 summary(wages$hours)
 
@@ -98,6 +114,7 @@ hours_hist + hours_box
 ```
 
 ### IQ
+
 ```{r}
 summary(wages$IQ)
 
@@ -109,6 +126,7 @@ iq_hist + iq_box
 ```
 
 ### KWW
+
 ```{r}
 summary(wages$KWW)
 
@@ -120,6 +138,7 @@ kww_hist + kww_box
 ```
 
 ### educ
+
 ```{r}
 summary(wages$educ)
 
@@ -131,6 +150,7 @@ educ_hist + educ_box
 ```
 
 ### exper
+
 ```{r}
 summary(wages$exper)
 
@@ -142,6 +162,7 @@ exper_hist + exper_box
 ```
 
 ### tenure
+
 ```{r}
 summary(wages$tenure)
 
@@ -153,6 +174,7 @@ tenure_hist + tenure_box
 ```
 
 ### age
+
 ```{r}
 summary(wages$age)
 
@@ -181,49 +203,96 @@ hour_wage_box <- ggplot(wages) + ggtitle("Boxplot of hour_wage") + aes(x = "", y
 
 hour_wage_hist + hour_wage_box
 ```
-```{r}
-identify_outliers <- function(a) {
-    lower = quantile(a, 0.25, na.rm = TRUE) - 1.5 * IQR(a);
-    upper = quantile(a, 0.75, na.rm = TRUE) + 1.5 * IQR(a);
-    
-    outliers <- a[(a > upper) | (a < lower)];
-    #count(outliers)
-    #order(outliers)
-    outliers
-}
 
-identify_outliers(wages$hour_wage)
+```{r}
+# identify_outliers <- function(a) {
+#     lower = quantile(a, 0.25, na.rm = TRUE) - 1.5 * IQR(a);
+#     upper = quantile(a, 0.75, na.rm = TRUE) + 1.5 * IQR(a);
+#     
+#     outliers <- a[(a > upper) | (a < lower)];
+#     #count(outliers)
+#     #order(outliers)
+#     outliers
+# }
+# 
+# identify_outliers(wages$hour_wage)
+# 
+# remove_outliers <- function(a, b){
+#   lower = quantile(a, 0.25, na.rm = TRUE) - 1.5 * IQR(a);
+#   upper = quantile(a, 0.75, na.rm = TRUE) + 1.5 * IQR(a);
+#   wages_without_outliers <- b[!((a > upper) | (a < lower)), ]
+#   wages_without_outliers
+# }
+# 
+# wages_without_outliers = remove_outliers(wages$hour_wage, wages)
+# hour_wage_hist <- ggplot(wages_without_outliers) + ggtitle("Histogram of hour_wage") + aes(x = hour_wage) + geom_histogram() + theme_minimal()
+# 
+# hour_wage_box <- ggplot(wages_without_outliers) + ggtitle("Boxplot of hour_wage") + aes(x = "", y = hour_wage) + geom_boxplot() + theme_minimal()
+# 
+# hour_wage_hist + hour_wage_box
 ```
 
 ```{r}
 
-remove_outliers <- function(a, b){
-  lower = quantile(a, 0.25, na.rm = TRUE) - 1.5 * IQR(a);
-  upper = quantile(a, 0.75, na.rm = TRUE) + 1.5 * IQR(a);
-  standard <- b[!((a > upper) | (a < lower)), ]
-  standard
-}
 
-standard = remove_outliers(wages$hour_wage, wages)
-hour_wage_hist <- ggplot(standard) + ggtitle("Histogram of hour_wage") + aes(x = hour_wage) + geom_histogram() + theme_minimal()
-
-hour_wage_box <- ggplot(standard) + ggtitle("Boxplot of hour_wage") + aes(x = "", y = hour_wage) + geom_boxplot() + theme_minimal()
-
-hour_wage_hist + hour_wage_box
 ```
-
 
 # Formulácia a štatistické overenie hypotéz
 
-## Hypotézy
+## Hypotéza 1
 
-Existuje vzťah medzi výškou hodinovej mzdy a dĺžkou vzdelania?
+Existuje vzťah medzi výškou hodinovej mzdy a IQ?
 
-$H_0$: Vzťah medzi výškou hodinovej mzdy a dĺžkou vzdelania **neexistuje**.
+$H_0$: Vzťah medzi výškou hodinovej mzdy a IQ **neexistuje**.
 
-$H_1$: Vzťah medzi výškou hodinovej mzdy a dĺžkou vzdelania **existuje**.
+$H_1$: Vzťah medzi výškou hodinovej mzdy a IQ **existuje**.
 
-## Lineárna regresia
+### Lineárna regresia
+
+```{r}
+fit <- lm(hour_wage ~ IQ, data = wages)
+summary(fit)
+
+plot(fit, pch = 16, col = "blue")
+
+```
+
+```{r}
+ggplot(data = wages, aes(x = hour_wage, y = IQ)) + 
+  geom_point(color='blue') +
+  geom_smooth(method = "lm", se = FALSE)
+```
+
+```{r}
+data <- map(1:100, function(x) wages[sort(sample(1:dim(wages)[1], size = 0.5*dim(wages)[1])),])
+
+models <- map(data, function(x) lm(x$hour_wage ~ x$IQ))
+
+listOfFunctions <- list(coefficients = coef, residuals = residuals)
+f <- function(x) {sapply(listOfFunctions, function(g) g(x))}
+exctractedData <- map(models, function(x) f(x))
+
+sd(map_dbl(models, function(x) coef(x)[1]))
+sd(map_dbl(models, function(x) coef(x)[2]))
+
+rss <- map_dbl(models, function(x) sum(resid(x)^2))
+rse <- map_dbl(rss, function(x) sqrt(x/(0.5*dim(wages)[1]-2)))
+boxplot(rss)
+boxplot(rse)
+
+cfs <- map_dbl(models, function(x) coef(x)[2])
+t.test(cfs, mu=0)
+```
+
+## Hypotéza 2
+
+Existuje vzťah medzi výškou hodinovej mzdy a IQ?
+
+$H_0$: Vzťah medzi výškou hodinovej mzdy a dĺžky vzdelania **neexistuje**.
+
+$H_1$: Vzťah medzi výškou hodinovej mzdy a dĺžky vzdelania **existuje**.
+
+### Lineárna regresia
 
 ```{r}
 fit <- lm(hour_wage ~ educ, data = wages)
@@ -232,10 +301,33 @@ summary(fit)
 plot(fit, pch = 16, col = "blue")
 
 ```
+
 ```{r}
 ggplot(data = wages, aes(x = hour_wage, y = educ)) + 
   geom_point(color='blue') +
   geom_smooth(method = "lm", se = FALSE)
+```
+
+
+```{r}
+data <- map(1:100, function(x) wages[sort(sample(1:dim(wages)[1], size = 0.5*dim(wages)[1])),])
+
+models <- map(data, function(x) lm(x$hour_wage ~ x$educ))
+
+listOfFunctions <- list(coefficients = coef, residuals = residuals)
+f <- function(x) {sapply(listOfFunctions, function(g) g(x))}
+exctractedData <- map(models, function(x) f(x))
+
+sd(map_dbl(models, function(x) coef(x)[1]))
+sd(map_dbl(models, function(x) coef(x)[2]))
+
+rss <- map_dbl(models, function(x) sum(resid(x)^2))
+rse <- map_dbl(rss, function(x) sqrt(x/(0.5*dim(wages)[1]-2)))
+boxplot(rss)
+boxplot(rse)
+
+cfs <- map_dbl(models, function(x) coef(x)[2])
+t.test(cfs, mu=0)
 ```
 
 ```{r}
@@ -249,10 +341,6 @@ ggplot(melted_cormat, aes(Var2, Var1, fill = value)) +
   geom_text(aes(Var2, Var1, label = value), color = "black", size = 3) 
 ```
 
-
 ```{r}
 sessionInfo()
 ```
-
-
-
