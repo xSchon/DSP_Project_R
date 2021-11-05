@@ -1,0 +1,1002 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+]{article}
+\usepackage{amsmath,amssymb}
+\usepackage{lmodern}
+\usepackage{ifxetex,ifluatex}
+\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math}
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\hypersetup{
+  pdftitle={Programovanie pre dátovú vedu: projekt 1},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+\urlstyle{same} % disable monospaced font for URLs
+\usepackage[margin=1in]{geometry}
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.77,0.63,0.00}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\usepackage{graphicx}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+% Set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+\ifluatex
+  \usepackage{selnolig}  % disable illegal ligatures
+\fi
+
+\title{Programovanie pre dátovú vedu: projekt 1}
+\author{}
+\date{\vspace{-2.5em}}
+
+\begin{document}
+\maketitle
+
+\hypertarget{zadanie}{%
+\section{Zadanie}\label{zadanie}}
+
+\begin{itemize}
+\tightlist
+\item
+  Stručne predstavte dáta pomocou SQL-LIKE syntaxe a grafiky „grammar of
+  graphics". Môžete uviesť počet záznamov, počet atribútov, ich typy a
+  charakteristiky ktoré sú potrebné k tomu, aby ste dokázali vašu
+  hypotézu. Sú pôvodné atribúty použiteľné, alebo je nutné niektoré
+  transformovať na nové ? (napríklad ak mám vzdialenosť a čas, môžem si
+  vypočítať rýchlosť a tú použiť pre ďalšiu fázu), majú dáta hodnoty,
+  ktoré významne vybočujú z priemeru? Má dátaset chýbajúce hodnoty? Ako
+  s nimi budete zaobchádzať? Prečo?
+\item
+  V treťom kroku si stanovte jednu hypotézu, ktoré je overiteľná
+  lineárnym regresným modelom a potvrďte ju pomocou krížovej validácie
+  vstupných dát. Pri programovaní nepoužívajte cykly a špeciálne sa
+  zamerajte na centrálne tendencie a rozptyl parametrov β1 a β2.
+\end{itemize}
+
+\hypertarget{naux10duxedtanie-kniux17enuxedc-a-datasetu}{%
+\section{Načítanie knižníc a
+datasetu}\label{naux10duxedtanie-kniux17enuxedc-a-datasetu}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(tidyverse)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## -- Attaching packages --------------------------------------- tidyverse 1.3.1 --
+\end{verbatim}
+
+\begin{verbatim}
+## v ggplot2 3.3.5     v purrr   0.3.4
+## v tibble  3.1.4     v dplyr   1.0.7
+## v tidyr   1.1.3     v stringr 1.4.0
+## v readr   2.0.1     v forcats 0.5.1
+\end{verbatim}
+
+\begin{verbatim}
+## -- Conflicts ------------------------------------------ tidyverse_conflicts() --
+## x dplyr::filter() masks stats::filter()
+## x dplyr::lag()    masks stats::lag()
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(patchwork)}
+\FunctionTok{library}\NormalTok{(reshape2)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## Attaching package: 'reshape2'
+\end{verbatim}
+
+\begin{verbatim}
+## The following object is masked from 'package:tidyr':
+## 
+##     smiths
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(gmodels)}
+\CommentTok{\#library(readxl)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{wages }\OtherTok{\textless{}{-}} \FunctionTok{read\_csv}\NormalTok{(}\StringTok{"Wages.csv"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Rows: 935 Columns: 17
+\end{verbatim}
+
+\begin{verbatim}
+## -- Column specification --------------------------------------------------------
+## Delimiter: ","
+## chr  (3): brthord, meduc, feduc
+## dbl (14): wage, hours, IQ, KWW, educ, exper, tenure, age, married, black, so...
+\end{verbatim}
+
+\begin{verbatim}
+## 
+## i Use `spec()` to retrieve the full column specification for this data.
+## i Specify the column types or set `show_col_types = FALSE` to quiet this message.
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\#wages \textless{}{-} read\_excel("Wages.xls", sheet = "WAGE2")}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{charakteristika-duxe1t}{%
+\section{Charakteristika dát}\label{charakteristika-duxe1t}}
+
+\hypertarget{nuxe1zvy-stux13apcov}{%
+\subsection{Názvy stĺpcov}\label{nuxe1zvy-stux13apcov}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{data.frame}\NormalTok{(}\FunctionTok{colnames}\NormalTok{(wages))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##    colnames.wages.
+## 1             wage
+## 2            hours
+## 3               IQ
+## 4              KWW
+## 5             educ
+## 6            exper
+## 7           tenure
+## 8              age
+## 9          married
+## 10           black
+## 11           south
+## 12           urban
+## 13            sibs
+## 14         brthord
+## 15           meduc
+## 16           feduc
+## 17           lwage
+\end{verbatim}
+
+\hypertarget{ukuxe1ux17eka-duxe1t-v-datasete}{%
+\subsection{Ukážka dát v
+datasete}\label{ukuxe1ux17eka-duxe1t-v-datasete}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{head}\NormalTok{(wages, }\DecValTok{10}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## # A tibble: 10 x 17
+##     wage hours    IQ   KWW  educ exper tenure   age married black south urban
+##    <dbl> <dbl> <dbl> <dbl> <dbl> <dbl>  <dbl> <dbl>   <dbl> <dbl> <dbl> <dbl>
+##  1   769    40    93    35    12    11      2    31       1     0     0     1
+##  2   808    50   119    41    18    11     16    37       1     0     0     1
+##  3   825    40   108    46    14    11      9    33       1     0     0     1
+##  4   650    40    96    32    12    13      7    32       1     0     0     1
+##  5   562    40    74    27    11    14      5    34       1     0     0     1
+##  6  1400    40   116    43    16    14      2    35       1     1     0     1
+##  7   600    40    91    24    10    13      0    30       0     0     0     1
+##  8  1081    40   114    50    18     8     14    38       1     0     0     1
+##  9  1154    45   111    37    15    13      1    36       1     0     0     0
+## 10  1000    40    95    44    12    16     16    36       1     0     0     1
+## # ... with 5 more variables: sibs <dbl>, brthord <chr>, meduc <chr>,
+## #   feduc <chr>, lwage <dbl>
+\end{verbatim}
+
+\hypertarget{poux10det-riadkov-stux13apcov-a-typy-stux13apcov}{%
+\subsection{Počet riadkov, stĺpcov a typy
+stĺpcov}\label{poux10det-riadkov-stux13apcov-a-typy-stux13apcov}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{nrow}\NormalTok{(wages)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 935
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{ncol}\NormalTok{(wages)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 17
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{spec}\NormalTok{(wages)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## cols(
+##   wage = col_double(),
+##   hours = col_double(),
+##   IQ = col_double(),
+##   KWW = col_double(),
+##   educ = col_double(),
+##   exper = col_double(),
+##   tenure = col_double(),
+##   age = col_double(),
+##   married = col_double(),
+##   black = col_double(),
+##   south = col_double(),
+##   urban = col_double(),
+##   sibs = col_double(),
+##   brthord = col_character(),
+##   meduc = col_character(),
+##   feduc = col_character(),
+##   lwage = col_double()
+## )
+\end{verbatim}
+
+\hypertarget{vuxfdznam-stux13apcov}{%
+\subsection{Význam stĺpcov}\label{vuxfdznam-stux13apcov}}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  wage monthly earnings
+\item
+  hours average weekly hours
+\item
+  IQ IQ score
+\item
+  KWW knowledge of world work score
+\item
+  educ years of education
+\item
+  exper years of work experience
+\item
+  tenure years with current employer
+\item
+  age age in years
+\item
+  married =1 if married
+\item
+  black =1 if black
+\item
+  south =1 if live in south
+\item
+  urban =1 if live in SMSA
+\item
+  sibs number of siblings
+\item
+  brthord birth order
+\item
+  meduc mother's education
+\item
+  feduc father's education
+\item
+  lwage natural log of wage
+\end{enumerate}
+
+\hypertarget{oux161etrenie-chuxfdbajuxfacich-hodnuxf4t}{%
+\subsection{Ošetrenie chýbajúcich
+hodnôt}\label{oux161etrenie-chuxfdbajuxfacich-hodnuxf4t}}
+
+V pôvodnom datasete boli chýbajúce hodnoty reprezentované bodkami, pre
+jednoduchšiu prácu sme bodky nahradili NA.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{wages[wages }\SpecialCharTok{==} \StringTok{"."}\NormalTok{] }\OtherTok{\textless{}{-}} \ConstantTok{NA}
+\NormalTok{wages}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## # A tibble: 935 x 17
+##     wage hours    IQ   KWW  educ exper tenure   age married black south urban
+##    <dbl> <dbl> <dbl> <dbl> <dbl> <dbl>  <dbl> <dbl>   <dbl> <dbl> <dbl> <dbl>
+##  1   769    40    93    35    12    11      2    31       1     0     0     1
+##  2   808    50   119    41    18    11     16    37       1     0     0     1
+##  3   825    40   108    46    14    11      9    33       1     0     0     1
+##  4   650    40    96    32    12    13      7    32       1     0     0     1
+##  5   562    40    74    27    11    14      5    34       1     0     0     1
+##  6  1400    40   116    43    16    14      2    35       1     1     0     1
+##  7   600    40    91    24    10    13      0    30       0     0     0     1
+##  8  1081    40   114    50    18     8     14    38       1     0     0     1
+##  9  1154    45   111    37    15    13      1    36       1     0     0     0
+## 10  1000    40    95    44    12    16     16    36       1     0     0     1
+## # ... with 925 more rows, and 5 more variables: sibs <dbl>, brthord <chr>,
+## #   meduc <chr>, feduc <chr>, lwage <dbl>
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{sum}\NormalTok{(}\FunctionTok{is.na}\NormalTok{(wages))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 355
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{na\_count }\OtherTok{\textless{}{-}}\FunctionTok{sapply}\NormalTok{(wages, }\ControlFlowTok{function}\NormalTok{(x) }\FunctionTok{sum}\NormalTok{(}\FunctionTok{is.na}\NormalTok{(x)))}
+\NormalTok{na\_count }\OtherTok{\textless{}{-}} \FunctionTok{data.frame}\NormalTok{(na\_count)}
+\NormalTok{na\_count}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##         na_count
+## wage           0
+## hours          0
+## IQ             0
+## KWW            0
+## educ           0
+## exper          0
+## tenure         0
+## age            0
+## married        0
+## black          0
+## south          0
+## urban          0
+## sibs           0
+## brthord       83
+## meduc         78
+## feduc        194
+## lwage          0
+\end{verbatim}
+
+Chýbajúcich hodnôt je 355 a aj to len v stĺpcoch birth order, mother's
+education a father's education. Tieto chýbajúce hodnoty by nemali
+ovplyvňovať naše hypotézy.
+
+\hypertarget{zuxe1kladnuxe9-charakteristiky-duxe1t}{%
+\subsection{Základné charakteristiky
+dát}\label{zuxe1kladnuxe9-charakteristiky-duxe1t}}
+
+\hypertarget{wage}{%
+\subsubsection{wage}\label{wage}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{summary}\NormalTok{(wages}\SpecialCharTok{$}\NormalTok{wage)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+##   115.0   669.0   905.0   957.9  1160.0  3078.0
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{wage\_hist }\OtherTok{\textless{}{-}} \FunctionTok{ggplot}\NormalTok{(wages) }\SpecialCharTok{+} \FunctionTok{ggtitle}\NormalTok{(}\StringTok{"Histogram of wage"}\NormalTok{) }\SpecialCharTok{+} \FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ wage) }\SpecialCharTok{+} \FunctionTok{geom\_histogram}\NormalTok{() }\SpecialCharTok{+} \FunctionTok{theme\_minimal}\NormalTok{()}
+
+\NormalTok{wage\_box }\OtherTok{\textless{}{-}} \FunctionTok{ggplot}\NormalTok{(wages) }\SpecialCharTok{+} \FunctionTok{ggtitle}\NormalTok{(}\StringTok{"Boxplot of wage"}\NormalTok{) }\SpecialCharTok{+} \FunctionTok{aes}\NormalTok{(}\AttributeTok{x =} \StringTok{""}\NormalTok{, }\AttributeTok{y =}\NormalTok{ wage) }\SpecialCharTok{+} \FunctionTok{geom\_boxplot}\NormalTok{() }\SpecialCharTok{+} \FunctionTok{theme\_minimal}\NormalTok{()}
+
+\NormalTok{wage\_hist }\SpecialCharTok{+}\NormalTok{ wage\_box}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
+\end{verbatim}
+
+\includegraphics{Schon_Smrecek_Project_R_files/figure-latex/unnamed-chunk-8-1.pdf}
+
+\hypertarget{hours}{%
+\subsubsection{hours}\label{hours}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{summary}\NormalTok{(wages}\SpecialCharTok{$}\NormalTok{hours)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+##   20.00   40.00   40.00   43.93   48.00   80.00
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{hours\_hist }\OtherTok{\textless{}{-}} \FunctionTok{ggplot}\NormalTok{(wages) }\SpecialCharTok{+} \FunctionTok{ggtitle}\NormalTok{(}\StringTok{"Histogram of hours"}\NormalTok{) }\SpecialCharTok{+} \FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ hours) }\SpecialCharTok{+} \FunctionTok{geom\_histogram}\NormalTok{() }\SpecialCharTok{+} \FunctionTok{theme\_minimal}\NormalTok{()}
+
+\NormalTok{hours\_box }\OtherTok{\textless{}{-}} \FunctionTok{ggplot}\NormalTok{(wages) }\SpecialCharTok{+} \FunctionTok{ggtitle}\NormalTok{(}\StringTok{"Boxplot of hours"}\NormalTok{) }\SpecialCharTok{+} \FunctionTok{aes}\NormalTok{(}\AttributeTok{x =} \StringTok{""}\NormalTok{, }\AttributeTok{y =}\NormalTok{ hours) }\SpecialCharTok{+} \FunctionTok{geom\_boxplot}\NormalTok{() }\SpecialCharTok{+} \FunctionTok{theme\_minimal}\NormalTok{()}
+
+\NormalTok{hours\_hist }\SpecialCharTok{+}\NormalTok{ hours\_box}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
+\end{verbatim}
+
+\includegraphics{Schon_Smrecek_Project_R_files/figure-latex/unnamed-chunk-9-1.pdf}
+
+\hypertarget{iq}{%
+\subsubsection{IQ}\label{iq}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{summary}\NormalTok{(wages}\SpecialCharTok{$}\NormalTok{IQ)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+##    50.0    92.0   102.0   101.3   112.0   145.0
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{iq\_hist }\OtherTok{\textless{}{-}} \FunctionTok{ggplot}\NormalTok{(wages) }\SpecialCharTok{+} \FunctionTok{ggtitle}\NormalTok{(}\StringTok{"Histogram of IQ"}\NormalTok{) }\SpecialCharTok{+} \FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ IQ) }\SpecialCharTok{+} \FunctionTok{geom\_histogram}\NormalTok{() }\SpecialCharTok{+} \FunctionTok{theme\_minimal}\NormalTok{()}
+
+\NormalTok{iq\_box }\OtherTok{\textless{}{-}} \FunctionTok{ggplot}\NormalTok{(wages) }\SpecialCharTok{+} \FunctionTok{ggtitle}\NormalTok{(}\StringTok{"Boxplot of IQ"}\NormalTok{) }\SpecialCharTok{+} \FunctionTok{aes}\NormalTok{(}\AttributeTok{x =} \StringTok{""}\NormalTok{, }\AttributeTok{y =}\NormalTok{ IQ) }\SpecialCharTok{+} \FunctionTok{geom\_boxplot}\NormalTok{() }\SpecialCharTok{+} \FunctionTok{theme\_minimal}\NormalTok{()}
+
+\NormalTok{iq\_hist }\SpecialCharTok{+}\NormalTok{ iq\_box}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
+\end{verbatim}
+
+\includegraphics{Schon_Smrecek_Project_R_files/figure-latex/unnamed-chunk-10-1.pdf}
+
+\hypertarget{kww}{%
+\subsubsection{KWW}\label{kww}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{summary}\NormalTok{(wages}\SpecialCharTok{$}\NormalTok{KWW)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+##   12.00   31.00   37.00   35.74   41.00   56.00
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{kww\_hist }\OtherTok{\textless{}{-}} \FunctionTok{ggplot}\NormalTok{(wages) }\SpecialCharTok{+} \FunctionTok{ggtitle}\NormalTok{(}\StringTok{"Histogram of KWW"}\NormalTok{) }\SpecialCharTok{+} \FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ KWW) }\SpecialCharTok{+} \FunctionTok{geom\_histogram}\NormalTok{() }\SpecialCharTok{+} \FunctionTok{theme\_minimal}\NormalTok{()}
+
+\NormalTok{kww\_box }\OtherTok{\textless{}{-}} \FunctionTok{ggplot}\NormalTok{(wages) }\SpecialCharTok{+} \FunctionTok{ggtitle}\NormalTok{(}\StringTok{"Boxplot of KWW"}\NormalTok{) }\SpecialCharTok{+} \FunctionTok{aes}\NormalTok{(}\AttributeTok{x =} \StringTok{""}\NormalTok{, }\AttributeTok{y =}\NormalTok{ KWW) }\SpecialCharTok{+} \FunctionTok{geom\_boxplot}\NormalTok{() }\SpecialCharTok{+} \FunctionTok{theme\_minimal}\NormalTok{()}
+
+\NormalTok{kww\_hist }\SpecialCharTok{+}\NormalTok{ kww\_box}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
+\end{verbatim}
+
+\includegraphics{Schon_Smrecek_Project_R_files/figure-latex/unnamed-chunk-11-1.pdf}
+
+\hypertarget{educ}{%
+\subsubsection{educ}\label{educ}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{summary}\NormalTok{(wages}\SpecialCharTok{$}\NormalTok{educ)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+##    9.00   12.00   12.00   13.47   16.00   18.00
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{educ\_hist }\OtherTok{\textless{}{-}} \FunctionTok{ggplot}\NormalTok{(wages) }\SpecialCharTok{+} \FunctionTok{ggtitle}\NormalTok{(}\StringTok{"Histogram of educ"}\NormalTok{) }\SpecialCharTok{+} \FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ educ) }\SpecialCharTok{+} \FunctionTok{geom\_histogram}\NormalTok{() }\SpecialCharTok{+} \FunctionTok{theme\_minimal}\NormalTok{()}
+
+\NormalTok{educ\_box }\OtherTok{\textless{}{-}} \FunctionTok{ggplot}\NormalTok{(wages) }\SpecialCharTok{+} \FunctionTok{ggtitle}\NormalTok{(}\StringTok{"Boxplot of educ"}\NormalTok{) }\SpecialCharTok{+} \FunctionTok{aes}\NormalTok{(}\AttributeTok{x =} \StringTok{""}\NormalTok{, }\AttributeTok{y =}\NormalTok{ educ) }\SpecialCharTok{+} \FunctionTok{geom\_boxplot}\NormalTok{() }\SpecialCharTok{+} \FunctionTok{theme\_minimal}\NormalTok{()}
+
+\NormalTok{educ\_hist }\SpecialCharTok{+}\NormalTok{ educ\_box}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
+\end{verbatim}
+
+\includegraphics{Schon_Smrecek_Project_R_files/figure-latex/unnamed-chunk-12-1.pdf}
+
+\hypertarget{exper}{%
+\subsubsection{exper}\label{exper}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{summary}\NormalTok{(wages}\SpecialCharTok{$}\NormalTok{exper)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+##    1.00    8.00   11.00   11.56   15.00   23.00
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{exper\_hist }\OtherTok{\textless{}{-}} \FunctionTok{ggplot}\NormalTok{(wages) }\SpecialCharTok{+} \FunctionTok{ggtitle}\NormalTok{(}\StringTok{"Histogram of exper"}\NormalTok{) }\SpecialCharTok{+} \FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ exper) }\SpecialCharTok{+} \FunctionTok{geom\_histogram}\NormalTok{() }\SpecialCharTok{+} \FunctionTok{theme\_minimal}\NormalTok{()}
+
+\NormalTok{exper\_box }\OtherTok{\textless{}{-}} \FunctionTok{ggplot}\NormalTok{(wages) }\SpecialCharTok{+} \FunctionTok{ggtitle}\NormalTok{(}\StringTok{"Boxplot of exper"}\NormalTok{) }\SpecialCharTok{+} \FunctionTok{aes}\NormalTok{(}\AttributeTok{x =} \StringTok{""}\NormalTok{, }\AttributeTok{y =}\NormalTok{ exper) }\SpecialCharTok{+} \FunctionTok{geom\_boxplot}\NormalTok{() }\SpecialCharTok{+} \FunctionTok{theme\_minimal}\NormalTok{()}
+
+\NormalTok{exper\_hist }\SpecialCharTok{+}\NormalTok{ exper\_box}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
+\end{verbatim}
+
+\includegraphics{Schon_Smrecek_Project_R_files/figure-latex/unnamed-chunk-13-1.pdf}
+
+\hypertarget{tenure}{%
+\subsubsection{tenure}\label{tenure}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{summary}\NormalTok{(wages}\SpecialCharTok{$}\NormalTok{tenure)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+##   0.000   3.000   7.000   7.234  11.000  22.000
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{tenure\_hist }\OtherTok{\textless{}{-}} \FunctionTok{ggplot}\NormalTok{(wages) }\SpecialCharTok{+} \FunctionTok{ggtitle}\NormalTok{(}\StringTok{"Histogram of tenure"}\NormalTok{) }\SpecialCharTok{+} \FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ tenure) }\SpecialCharTok{+} \FunctionTok{geom\_histogram}\NormalTok{() }\SpecialCharTok{+} \FunctionTok{theme\_minimal}\NormalTok{()}
+
+\NormalTok{tenure\_box }\OtherTok{\textless{}{-}} \FunctionTok{ggplot}\NormalTok{(wages) }\SpecialCharTok{+} \FunctionTok{ggtitle}\NormalTok{(}\StringTok{"Boxplot of tenure"}\NormalTok{) }\SpecialCharTok{+} \FunctionTok{aes}\NormalTok{(}\AttributeTok{x =} \StringTok{""}\NormalTok{, }\AttributeTok{y =}\NormalTok{ tenure) }\SpecialCharTok{+} \FunctionTok{geom\_boxplot}\NormalTok{() }\SpecialCharTok{+} \FunctionTok{theme\_minimal}\NormalTok{()}
+
+\NormalTok{tenure\_hist }\SpecialCharTok{+}\NormalTok{ tenure\_box}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
+\end{verbatim}
+
+\includegraphics{Schon_Smrecek_Project_R_files/figure-latex/unnamed-chunk-14-1.pdf}
+
+\hypertarget{age}{%
+\subsubsection{age}\label{age}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{summary}\NormalTok{(wages}\SpecialCharTok{$}\NormalTok{age)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+##   28.00   30.00   33.00   33.08   36.00   38.00
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{age\_hist }\OtherTok{\textless{}{-}} \FunctionTok{ggplot}\NormalTok{(wages) }\SpecialCharTok{+} \FunctionTok{ggtitle}\NormalTok{(}\StringTok{"Histogram of age"}\NormalTok{) }\SpecialCharTok{+} \FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ age) }\SpecialCharTok{+} \FunctionTok{geom\_histogram}\NormalTok{() }\SpecialCharTok{+} \FunctionTok{theme\_minimal}\NormalTok{()}
+
+\NormalTok{age\_box }\OtherTok{\textless{}{-}} \FunctionTok{ggplot}\NormalTok{(wages) }\SpecialCharTok{+} \FunctionTok{ggtitle}\NormalTok{(}\StringTok{"Boxplot of age"}\NormalTok{) }\SpecialCharTok{+} \FunctionTok{aes}\NormalTok{(}\AttributeTok{x =} \StringTok{""}\NormalTok{, }\AttributeTok{y =}\NormalTok{ age) }\SpecialCharTok{+} \FunctionTok{geom\_boxplot}\NormalTok{() }\SpecialCharTok{+} \FunctionTok{theme\_minimal}\NormalTok{()}
+
+\NormalTok{age\_hist }\SpecialCharTok{+}\NormalTok{ age\_box}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
+\end{verbatim}
+
+\includegraphics{Schon_Smrecek_Project_R_files/figure-latex/unnamed-chunk-15-1.pdf}
+
+\hypertarget{duxe1ta-ktoruxe9-vuxfdznamne-vyboux10dujuxfa-z-priemeru}{%
+\subsection{Dáta, ktoré významne vybočujú z
+priemeru}\label{duxe1ta-ktoruxe9-vuxfdznamne-vyboux10dujuxfa-z-priemeru}}
+
+Takéto dáta možno vidieť pri stĺpcoch wages, hours, IQ a KWW. Keďže sa
+jedná o skutočných ľudí.
+
+\hypertarget{tranformuxe1cia-atribuxfatov}{%
+\subsection{Tranformácia atribútov}\label{tranformuxe1cia-atribuxfatov}}
+
+Uvažujúc, že stĺpec wages znamená mesačný zárobok a stĺpec hours znamená
+priemerný odrobený počet hodín za týždeň, môžeme vypočítať hodinovú mzdu
+pracovníka, ako podiel mesačnej mzdy a štvornásobku priemeru počtu hodín
+odrobených za týždeň.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{wages }\OtherTok{\textless{}{-}}\NormalTok{ wages }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{mutate}\NormalTok{(}\AttributeTok{hour\_wage =}\NormalTok{ (wage }\SpecialCharTok{/}\NormalTok{ (hours }\SpecialCharTok{*} \DecValTok{4}\NormalTok{)))}
+\NormalTok{wages }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{select}\NormalTok{(wage, hours, hour\_wage, educ) }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{head}\NormalTok{(}\DecValTok{10}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## # A tibble: 10 x 4
+##     wage hours hour_wage  educ
+##    <dbl> <dbl>     <dbl> <dbl>
+##  1   769    40      4.81    12
+##  2   808    50      4.04    18
+##  3   825    40      5.16    14
+##  4   650    40      4.06    12
+##  5   562    40      3.51    11
+##  6  1400    40      8.75    16
+##  7   600    40      3.75    10
+##  8  1081    40      6.76    18
+##  9  1154    45      6.41    15
+## 10  1000    40      6.25    12
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{hour\_wage\_hist }\OtherTok{\textless{}{-}} \FunctionTok{ggplot}\NormalTok{(wages) }\SpecialCharTok{+} \FunctionTok{ggtitle}\NormalTok{(}\StringTok{"Histogram of hour\_wage"}\NormalTok{) }\SpecialCharTok{+} \FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ hour\_wage) }\SpecialCharTok{+} \FunctionTok{geom\_histogram}\NormalTok{() }\SpecialCharTok{+} \FunctionTok{theme\_minimal}\NormalTok{()}
+
+\NormalTok{hour\_wage\_box }\OtherTok{\textless{}{-}} \FunctionTok{ggplot}\NormalTok{(wages) }\SpecialCharTok{+} \FunctionTok{ggtitle}\NormalTok{(}\StringTok{"Boxplot of hour\_wage"}\NormalTok{) }\SpecialCharTok{+} \FunctionTok{aes}\NormalTok{(}\AttributeTok{x =} \StringTok{""}\NormalTok{, }\AttributeTok{y =}\NormalTok{ hour\_wage) }\SpecialCharTok{+} \FunctionTok{geom\_boxplot}\NormalTok{() }\SpecialCharTok{+} \FunctionTok{theme\_minimal}\NormalTok{()}
+
+\NormalTok{hour\_wage\_hist }\SpecialCharTok{+}\NormalTok{ hour\_wage\_box}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
+\end{verbatim}
+
+\includegraphics{Schon_Smrecek_Project_R_files/figure-latex/unnamed-chunk-16-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{identify\_outliers }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(a) \{}
+\NormalTok{    lower }\OtherTok{=} \FunctionTok{quantile}\NormalTok{(a, }\FloatTok{0.25}\NormalTok{, }\AttributeTok{na.rm =} \ConstantTok{TRUE}\NormalTok{) }\SpecialCharTok{{-}} \FloatTok{1.5} \SpecialCharTok{*} \FunctionTok{IQR}\NormalTok{(a);}
+\NormalTok{    upper }\OtherTok{=} \FunctionTok{quantile}\NormalTok{(a, }\FloatTok{0.75}\NormalTok{, }\AttributeTok{na.rm =} \ConstantTok{TRUE}\NormalTok{) }\SpecialCharTok{+} \FloatTok{1.5} \SpecialCharTok{*} \FunctionTok{IQR}\NormalTok{(a);}
+    
+\NormalTok{    outliers }\OtherTok{\textless{}{-}}\NormalTok{ a[(a }\SpecialCharTok{\textgreater{}}\NormalTok{ upper) }\SpecialCharTok{|}\NormalTok{ (a }\SpecialCharTok{\textless{}}\NormalTok{ lower)];}
+    \CommentTok{\#count(outliers)}
+    \CommentTok{\#order(outliers)}
+\NormalTok{    outliers}
+\NormalTok{\}}
+
+\FunctionTok{identify\_outliers}\NormalTok{(wages}\SpecialCharTok{$}\NormalTok{hour\_wage)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##  [1] 11.87222 14.43750 14.11667 15.62500 13.85500 12.02000 11.86875 13.51250
+##  [9] 12.02000 13.51250 11.83846 12.91875 12.00000 13.35625 11.87222 13.51250
+## [17] 25.65000 11.87222 12.02500 14.42500
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{remove\_outliers }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(a, b)\{}
+\NormalTok{  lower }\OtherTok{=} \FunctionTok{quantile}\NormalTok{(a, }\FloatTok{0.25}\NormalTok{, }\AttributeTok{na.rm =} \ConstantTok{TRUE}\NormalTok{) }\SpecialCharTok{{-}} \FloatTok{1.5} \SpecialCharTok{*} \FunctionTok{IQR}\NormalTok{(a);}
+\NormalTok{  upper }\OtherTok{=} \FunctionTok{quantile}\NormalTok{(a, }\FloatTok{0.75}\NormalTok{, }\AttributeTok{na.rm =} \ConstantTok{TRUE}\NormalTok{) }\SpecialCharTok{+} \FloatTok{1.5} \SpecialCharTok{*} \FunctionTok{IQR}\NormalTok{(a);}
+\NormalTok{  wages\_without\_outliers }\OtherTok{\textless{}{-}}\NormalTok{ b[}\SpecialCharTok{!}\NormalTok{((a }\SpecialCharTok{\textgreater{}}\NormalTok{ upper) }\SpecialCharTok{|}\NormalTok{ (a }\SpecialCharTok{\textless{}}\NormalTok{ lower)), ]}
+\NormalTok{  wages\_without\_outliers}
+\NormalTok{\}}
+
+\NormalTok{wages\_without\_outliers }\OtherTok{=} \FunctionTok{remove\_outliers}\NormalTok{(wages}\SpecialCharTok{$}\NormalTok{hour\_wage, wages)}
+\NormalTok{hour\_wage\_hist }\OtherTok{\textless{}{-}} \FunctionTok{ggplot}\NormalTok{(wages\_without\_outliers) }\SpecialCharTok{+} \FunctionTok{ggtitle}\NormalTok{(}\StringTok{"Histogram of hour\_wage"}\NormalTok{) }\SpecialCharTok{+} \FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ hour\_wage) }\SpecialCharTok{+} \FunctionTok{geom\_histogram}\NormalTok{() }\SpecialCharTok{+} \FunctionTok{theme\_minimal}\NormalTok{()}
+
+\NormalTok{hour\_wage\_box }\OtherTok{\textless{}{-}} \FunctionTok{ggplot}\NormalTok{(wages\_without\_outliers) }\SpecialCharTok{+} \FunctionTok{ggtitle}\NormalTok{(}\StringTok{"Boxplot of hour\_wage"}\NormalTok{) }\SpecialCharTok{+} \FunctionTok{aes}\NormalTok{(}\AttributeTok{x =} \StringTok{""}\NormalTok{, }\AttributeTok{y =}\NormalTok{ hour\_wage) }\SpecialCharTok{+} \FunctionTok{geom\_boxplot}\NormalTok{() }\SpecialCharTok{+} \FunctionTok{theme\_minimal}\NormalTok{()}
+
+\NormalTok{hour\_wage\_hist }\SpecialCharTok{+}\NormalTok{ hour\_wage\_box}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
+\end{verbatim}
+
+\includegraphics{Schon_Smrecek_Project_R_files/figure-latex/unnamed-chunk-18-1.pdf}
+
+\hypertarget{formuluxe1cia-a-ux161tatistickuxe9-overenie-hypotuxe9z}{%
+\section{Formulácia a štatistické overenie
+hypotéz}\label{formuluxe1cia-a-ux161tatistickuxe9-overenie-hypotuxe9z}}
+
+\hypertarget{hypotuxe9zy}{%
+\subsection{Hypotézy}\label{hypotuxe9zy}}
+
+Existuje vzťah medzi výškou hodinovej mzdy a dĺžkou vzdelania?
+
+\(H_0\): Vzťah medzi výškou hodinovej mzdy a dĺžkou vzdelania
+\textbf{neexistuje}.
+
+\(H_1\): Vzťah medzi výškou hodinovej mzdy a dĺžkou vzdelania
+\textbf{existuje}.
+
+\hypertarget{lineuxe1rna-regresia}{%
+\subsection{Lineárna regresia}\label{lineuxe1rna-regresia}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{fit }\OtherTok{\textless{}{-}} \FunctionTok{lm}\NormalTok{(hour\_wage }\SpecialCharTok{\textasciitilde{}}\NormalTok{ educ, }\AttributeTok{data =}\NormalTok{ wages)}
+\FunctionTok{summary}\NormalTok{(fit)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## Call:
+## lm(formula = hour_wage ~ educ, data = wages)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -5.3827 -1.6945 -0.2152  1.3215 20.2126 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(>|t|)    
+## (Intercept)  1.46745    0.48330   3.036  0.00246 ** 
+## educ         0.30538    0.03542   8.623  < 2e-16 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 2.378 on 933 degrees of freedom
+## Multiple R-squared:  0.07381,    Adjusted R-squared:  0.07281 
+## F-statistic: 74.35 on 1 and 933 DF,  p-value: < 2.2e-16
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{plot}\NormalTok{(fit, }\AttributeTok{pch =} \DecValTok{16}\NormalTok{, }\AttributeTok{col =} \StringTok{"blue"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{Schon_Smrecek_Project_R_files/figure-latex/unnamed-chunk-19-1.pdf}
+\includegraphics{Schon_Smrecek_Project_R_files/figure-latex/unnamed-chunk-19-2.pdf}
+\includegraphics{Schon_Smrecek_Project_R_files/figure-latex/unnamed-chunk-19-3.pdf}
+\includegraphics{Schon_Smrecek_Project_R_files/figure-latex/unnamed-chunk-19-4.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{ggplot}\NormalTok{(}\AttributeTok{data =}\NormalTok{ wages, }\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ hour\_wage, }\AttributeTok{y =}\NormalTok{ educ)) }\SpecialCharTok{+} 
+  \FunctionTok{geom\_point}\NormalTok{(}\AttributeTok{color=}\StringTok{\textquotesingle{}blue\textquotesingle{}}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{geom\_smooth}\NormalTok{(}\AttributeTok{method =} \StringTok{"lm"}\NormalTok{, }\AttributeTok{se =} \ConstantTok{FALSE}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## `geom_smooth()` using formula 'y ~ x'
+\end{verbatim}
+
+\includegraphics{Schon_Smrecek_Project_R_files/figure-latex/unnamed-chunk-20-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{data }\OtherTok{\textless{}{-}} \FunctionTok{map}\NormalTok{(}\DecValTok{1}\SpecialCharTok{:}\DecValTok{40}\NormalTok{, }\ControlFlowTok{function}\NormalTok{(x) wages[}\FunctionTok{sort}\NormalTok{(}\FunctionTok{sample}\NormalTok{(}\DecValTok{1}\SpecialCharTok{:}\FunctionTok{dim}\NormalTok{(wages)[}\DecValTok{1}\NormalTok{], }\AttributeTok{size =} \FloatTok{0.5}\SpecialCharTok{*}\FunctionTok{dim}\NormalTok{(wages)[}\DecValTok{1}\NormalTok{])),])}
+
+\NormalTok{models }\OtherTok{\textless{}{-}} \FunctionTok{map}\NormalTok{(data, }\ControlFlowTok{function}\NormalTok{(x) }\FunctionTok{lm}\NormalTok{(x}\SpecialCharTok{$}\NormalTok{hour\_wage }\SpecialCharTok{\textasciitilde{}}\NormalTok{ x}\SpecialCharTok{$}\NormalTok{educ))}
+
+\NormalTok{listOfFunctions }\OtherTok{\textless{}{-}} \FunctionTok{list}\NormalTok{(}\AttributeTok{coefficients =}\NormalTok{ coef, }\AttributeTok{residuals =}\NormalTok{ residuals)}
+\NormalTok{f }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(x) \{}\FunctionTok{sapply}\NormalTok{(listOfFunctions, }\ControlFlowTok{function}\NormalTok{(g) }\FunctionTok{g}\NormalTok{(x))\}}
+\NormalTok{exctractedData }\OtherTok{\textless{}{-}} \FunctionTok{map}\NormalTok{(models, }\ControlFlowTok{function}\NormalTok{(x) }\FunctionTok{f}\NormalTok{(x))}
+
+\FunctionTok{sd}\NormalTok{(}\FunctionTok{map\_dbl}\NormalTok{(models, }\ControlFlowTok{function}\NormalTok{(x) }\FunctionTok{coef}\NormalTok{(x)[}\DecValTok{1}\NormalTok{]))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 0.4960718
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{sd}\NormalTok{(}\FunctionTok{map\_dbl}\NormalTok{(models, }\ControlFlowTok{function}\NormalTok{(x) }\FunctionTok{coef}\NormalTok{(x)[}\DecValTok{2}\NormalTok{]))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 0.03730703
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{rss }\OtherTok{\textless{}{-}} \FunctionTok{map\_dbl}\NormalTok{(models, }\ControlFlowTok{function}\NormalTok{(x) }\FunctionTok{sum}\NormalTok{(}\FunctionTok{resid}\NormalTok{(x)}\SpecialCharTok{\^{}}\DecValTok{2}\NormalTok{))}
+\NormalTok{rse }\OtherTok{\textless{}{-}} \FunctionTok{map\_dbl}\NormalTok{(rss, }\ControlFlowTok{function}\NormalTok{(x) }\FunctionTok{sqrt}\NormalTok{(x}\SpecialCharTok{/}\NormalTok{(}\FloatTok{0.5}\SpecialCharTok{*}\FunctionTok{dim}\NormalTok{(wages)[}\DecValTok{1}\NormalTok{]}\SpecialCharTok{{-}}\DecValTok{2}\NormalTok{)))}
+\FunctionTok{boxplot}\NormalTok{(rss)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{Schon_Smrecek_Project_R_files/figure-latex/unnamed-chunk-21-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{boxplot}\NormalTok{(rse)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{Schon_Smrecek_Project_R_files/figure-latex/unnamed-chunk-21-2.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{cormat }\OtherTok{\textless{}{-}} \FunctionTok{round}\NormalTok{(}\FunctionTok{cor}\NormalTok{(wages[, }\SpecialCharTok{!}\FunctionTok{names}\NormalTok{(wages) }\SpecialCharTok{\%in\%} \FunctionTok{c}\NormalTok{(}\StringTok{"brthord"}\NormalTok{, }\StringTok{"meduc"}\NormalTok{,    }\StringTok{"feduc"}\NormalTok{)] ),}\DecValTok{3}\NormalTok{)}
+\FunctionTok{head}\NormalTok{(cormat)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##         wage  hours     IQ   KWW   educ  exper tenure    age married  black
+## wage   1.000 -0.010  0.309 0.326  0.327  0.002  0.128  0.157   0.137 -0.211
+## hours -0.010  1.000  0.074 0.114  0.091 -0.062 -0.056  0.025   0.033 -0.108
+## IQ     0.309  0.074  1.000 0.414  0.516 -0.225  0.042 -0.044  -0.015 -0.388
+## KWW    0.326  0.114  0.414 1.000  0.388  0.017  0.141  0.393   0.090 -0.281
+## educ   0.327  0.091  0.516 0.388  1.000 -0.456 -0.036 -0.012  -0.059 -0.179
+## exper  0.002 -0.062 -0.225 0.017 -0.456  1.000  0.244  0.495   0.106  0.056
+##        south  urban   sibs  lwage hour_wage
+## wage  -0.159  0.198 -0.159  0.953     0.931
+## hours -0.030  0.017 -0.050 -0.047    -0.318
+## IQ    -0.210  0.039 -0.285  0.315     0.265
+## KWW   -0.094  0.098 -0.285  0.306     0.261
+## educ  -0.097  0.072 -0.239  0.312     0.272
+## exper  0.021 -0.047  0.064  0.021     0.018
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{melted\_cormat }\OtherTok{\textless{}{-}} \FunctionTok{melt}\NormalTok{(cormat)}
+\FunctionTok{head}\NormalTok{(melted\_cormat)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##    Var1 Var2  value
+## 1  wage wage  1.000
+## 2 hours wage -0.010
+## 3    IQ wage  0.309
+## 4   KWW wage  0.326
+## 5  educ wage  0.327
+## 6 exper wage  0.002
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{ggplot}\NormalTok{(melted\_cormat, }\FunctionTok{aes}\NormalTok{(Var2, Var1, }\AttributeTok{fill =}\NormalTok{ value)) }\SpecialCharTok{+} 
+  \FunctionTok{geom\_tile}\NormalTok{() }\SpecialCharTok{+} 
+  \FunctionTok{geom\_text}\NormalTok{(}\FunctionTok{aes}\NormalTok{(Var2, Var1, }\AttributeTok{label =}\NormalTok{ value), }\AttributeTok{color =} \StringTok{"black"}\NormalTok{, }\AttributeTok{size =} \DecValTok{3}\NormalTok{) }
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{Schon_Smrecek_Project_R_files/figure-latex/unnamed-chunk-22-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{sessionInfo}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## R version 4.1.1 (2021-08-10)
+## Platform: x86_64-w64-mingw32/x64 (64-bit)
+## Running under: Windows 10 x64 (build 19043)
+## 
+## Matrix products: default
+## 
+## locale:
+## [1] LC_COLLATE=Slovak_Slovakia.1250  LC_CTYPE=Slovak_Slovakia.1250   
+## [3] LC_MONETARY=Slovak_Slovakia.1250 LC_NUMERIC=C                    
+## [5] LC_TIME=Slovak_Slovakia.1250    
+## 
+## attached base packages:
+## [1] stats     graphics  grDevices utils     datasets  methods   base     
+## 
+## other attached packages:
+##  [1] gmodels_2.18.1  reshape2_1.4.4  patchwork_1.1.1 forcats_0.5.1  
+##  [5] stringr_1.4.0   dplyr_1.0.7     purrr_0.3.4     readr_2.0.1    
+##  [9] tidyr_1.1.3     tibble_3.1.4    ggplot2_3.3.5   tidyverse_1.3.1
+## 
+## loaded via a namespace (and not attached):
+##  [1] httr_1.4.2       bit64_4.0.5      vroom_1.5.5      jsonlite_1.7.2  
+##  [5] splines_4.1.1    modelr_0.1.8     gtools_3.9.2     assertthat_0.2.1
+##  [9] highr_0.9        cellranger_1.1.0 yaml_2.2.1       pillar_1.6.3    
+## [13] backports_1.2.1  lattice_0.20-44  glue_1.4.2       digest_0.6.28   
+## [17] rvest_1.0.1      colorspace_2.0-2 Matrix_1.3-4     htmltools_0.5.2 
+## [21] plyr_1.8.6       pkgconfig_2.0.3  broom_0.7.9      haven_2.4.3     
+## [25] scales_1.1.1     gdata_2.18.0     tzdb_0.1.2       mgcv_1.8-36     
+## [29] generics_0.1.0   farver_2.1.0     ellipsis_0.3.2   withr_2.4.2     
+## [33] cli_3.0.1        magrittr_2.0.1   crayon_1.4.1     readxl_1.3.1    
+## [37] evaluate_0.14    fs_1.5.0         fansi_0.5.0      nlme_3.1-152    
+## [41] MASS_7.3-54      xml2_1.3.2       tools_4.1.1      hms_1.1.1       
+## [45] lifecycle_1.0.1  munsell_0.5.0    reprex_2.0.1     compiler_4.1.1  
+## [49] rlang_0.4.11     grid_4.1.1       rstudioapi_0.13  labeling_0.4.2  
+## [53] rmarkdown_2.11   gtable_0.3.0     DBI_1.1.1        R6_2.5.1        
+## [57] lubridate_1.7.10 knitr_1.34       fastmap_1.1.0    bit_4.0.4       
+## [61] utf8_1.2.2       stringi_1.7.4    parallel_4.1.1   Rcpp_1.0.7      
+## [65] vctrs_0.3.8      dbplyr_2.1.1     tidyselect_1.1.1 xfun_0.26
+\end{verbatim}
+
+\end{document}
