@@ -239,7 +239,54 @@ hour_wage_hist + hour_wage_box
 
 # Formulácia a štatistické overenie hypotéz
 
+
 ## Hypotéza 1
+
+Existuje vzťah medzi výškou hodinovej mzdy a dĺžky vzdelania?
+
+$H_0$: Vzťah medzi výškou hodinovej mzdy a dĺžky vzdelania **neexistuje**.
+
+$H_1$: Vzťah medzi výškou hodinovej mzdy a dĺžky vzdelania **existuje**.
+
+### Lineárna regresia
+
+```{r}
+fit <- lm(hour_wage ~ educ, data = wages)
+summary(fit)
+
+plot(fit, pch = 16, col = "blue")
+
+```
+
+```{r}
+ggplot(data = wages, aes(x = hour_wage, y = educ)) + 
+  geom_point(color='blue') +
+  geom_smooth(method = "lm", se = FALSE)
+```
+
+```{r}
+data <- map(1:100, function(x) wages[sort(sample(1:dim(wages)[1], size = 0.5*dim(wages)[1])),])
+
+models <- map(data, function(x) lm(x$hour_wage ~ x$educ))
+
+listOfFunctions <- list(coefficients = coef, residuals = residuals)
+f <- function(x) {sapply(listOfFunctions, function(g) g(x))}
+exctractedData <- map(models, function(x) f(x))
+
+sd(map_dbl(models, function(x) coef(x)[1]))
+sd(map_dbl(models, function(x) coef(x)[2]))
+
+rss <- map_dbl(models, function(x) sum(resid(x)^2))
+rse <- map_dbl(rss, function(x) sqrt(x/(0.5*dim(wages)[1]-2)))
+boxplot(rss)
+boxplot(rse)
+
+cfs <- map_dbl(models, function(x) coef(x)[2])
+t.test(cfs, mu=0)
+```
+
+
+## Hypotéza 2
 
 Existuje vzťah medzi výškou hodinovej mzdy a IQ?
 
@@ -283,19 +330,18 @@ boxplot(rse)
 cfs <- map_dbl(models, function(x) coef(x)[2])
 t.test(cfs, mu=0)
 ```
+## Hypotéza 3
 
-## Hypotéza 2
+Existuje vzťah medzi IQ a dĺžkou vzdelania?
 
-Existuje vzťah medzi výškou hodinovej mzdy a IQ?
+$H_0$: Vzťah medzi IQ a dĺžkou vzdelania **neexistuje**.
 
-$H_0$: Vzťah medzi výškou hodinovej mzdy a dĺžky vzdelania **neexistuje**.
-
-$H_1$: Vzťah medzi výškou hodinovej mzdy a dĺžky vzdelania **existuje**.
+$H_1$: Vzťah medzi IQ a dĺžkou vzdelania **existuje**.
 
 ### Lineárna regresia
 
 ```{r}
-fit <- lm(hour_wage ~ educ, data = wages)
+fit <- lm(IQ ~ educ, data = wages)
 summary(fit)
 
 plot(fit, pch = 16, col = "blue")
@@ -303,16 +349,15 @@ plot(fit, pch = 16, col = "blue")
 ```
 
 ```{r}
-ggplot(data = wages, aes(x = hour_wage, y = educ)) + 
+ggplot(data = wages, aes(x = IQ, y = educ)) + 
   geom_point(color='blue') +
   geom_smooth(method = "lm", se = FALSE)
 ```
 
-
 ```{r}
 data <- map(1:100, function(x) wages[sort(sample(1:dim(wages)[1], size = 0.5*dim(wages)[1])),])
 
-models <- map(data, function(x) lm(x$hour_wage ~ x$educ))
+models <- map(data, function(x) lm(x$IQ ~ x$educ))
 
 listOfFunctions <- list(coefficients = coef, residuals = residuals)
 f <- function(x) {sapply(listOfFunctions, function(g) g(x))}
@@ -329,6 +374,11 @@ boxplot(rse)
 cfs <- map_dbl(models, function(x) coef(x)[2])
 t.test(cfs, mu=0)
 ```
+
+
+
+
+
 
 ```{r}
 cormat <- round(cor(wages[, !names(wages) %in% c("brthord",	"meduc",	"feduc")] ),3)
