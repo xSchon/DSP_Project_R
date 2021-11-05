@@ -1,9 +1,9 @@
 ---
 title: 'Programovanie pre dátovú vedu: projekt 1'
 output:
-  pdf_document: default
   html_document:
     df_print: paged
+  pdf_document: default
 ---
 
 # Zadanie
@@ -205,50 +205,52 @@ hour_wage_hist + hour_wage_box
 ```
 
 ```{r}
-identify_outliers <- function(a) {
-    lower = quantile(a, 0.25, na.rm = TRUE) - 1.5 * IQR(a);
-    upper = quantile(a, 0.75, na.rm = TRUE) + 1.5 * IQR(a);
-    
-    outliers <- a[(a > upper) | (a < lower)];
-    #count(outliers)
-    #order(outliers)
-    outliers
-}
-
-identify_outliers(wages$hour_wage)
+# identify_outliers <- function(a) {
+#     lower = quantile(a, 0.25, na.rm = TRUE) - 1.5 * IQR(a);
+#     upper = quantile(a, 0.75, na.rm = TRUE) + 1.5 * IQR(a);
+#     
+#     outliers <- a[(a > upper) | (a < lower)];
+#     #count(outliers)
+#     #order(outliers)
+#     outliers
+# }
+# 
+# identify_outliers(wages$hour_wage)
+# 
+# remove_outliers <- function(a, b){
+#   lower = quantile(a, 0.25, na.rm = TRUE) - 1.5 * IQR(a);
+#   upper = quantile(a, 0.75, na.rm = TRUE) + 1.5 * IQR(a);
+#   wages_without_outliers <- b[!((a > upper) | (a < lower)), ]
+#   wages_without_outliers
+# }
+# 
+# wages_without_outliers = remove_outliers(wages$hour_wage, wages)
+# hour_wage_hist <- ggplot(wages_without_outliers) + ggtitle("Histogram of hour_wage") + aes(x = hour_wage) + geom_histogram() + theme_minimal()
+# 
+# hour_wage_box <- ggplot(wages_without_outliers) + ggtitle("Boxplot of hour_wage") + aes(x = "", y = hour_wage) + geom_boxplot() + theme_minimal()
+# 
+# hour_wage_hist + hour_wage_box
 ```
 
 ```{r}
 
-remove_outliers <- function(a, b){
-  lower = quantile(a, 0.25, na.rm = TRUE) - 1.5 * IQR(a);
-  upper = quantile(a, 0.75, na.rm = TRUE) + 1.5 * IQR(a);
-  wages_without_outliers <- b[!((a > upper) | (a < lower)), ]
-  wages_without_outliers
-}
 
-wages_without_outliers = remove_outliers(wages$hour_wage, wages)
-hour_wage_hist <- ggplot(wages_without_outliers) + ggtitle("Histogram of hour_wage") + aes(x = hour_wage) + geom_histogram() + theme_minimal()
-
-hour_wage_box <- ggplot(wages_without_outliers) + ggtitle("Boxplot of hour_wage") + aes(x = "", y = hour_wage) + geom_boxplot() + theme_minimal()
-
-hour_wage_hist + hour_wage_box
 ```
 
 # Formulácia a štatistické overenie hypotéz
 
-## Hypotézy
+## Hypotéza 1
 
-Existuje vzťah medzi výškou hodinovej mzdy a dĺžkou vzdelania?
+Existuje vzťah medzi výškou hodinovej mzdy a IQ?
 
-$H_0$: Vzťah medzi výškou hodinovej mzdy a dĺžkou vzdelania **neexistuje**.
+$H_0$: Vzťah medzi výškou hodinovej mzdy a IQ **neexistuje**.
 
-$H_1$: Vzťah medzi výškou hodinovej mzdy a dĺžkou vzdelania **existuje**.
+$H_1$: Vzťah medzi výškou hodinovej mzdy a IQ **existuje**.
 
-## Lineárna regresia
+### Lineárna regresia
 
 ```{r}
-fit <- lm(hour_wage ~ educ, data = wages)
+fit <- lm(hour_wage ~ IQ, data = wages)
 summary(fit)
 
 plot(fit, pch = 16, col = "blue")
@@ -262,7 +264,53 @@ ggplot(data = wages, aes(x = hour_wage, y = IQ)) +
 ```
 
 ```{r}
-data <- map(1:40, function(x) wages[sort(sample(1:dim(wages)[1], size = 0.5*dim(wages)[1])),])
+data <- map(1:100, function(x) wages[sort(sample(1:dim(wages)[1], size = 0.5*dim(wages)[1])),])
+
+models <- map(data, function(x) lm(x$hour_wage ~ x$IQ))
+
+listOfFunctions <- list(coefficients = coef, residuals = residuals)
+f <- function(x) {sapply(listOfFunctions, function(g) g(x))}
+exctractedData <- map(models, function(x) f(x))
+
+sd(map_dbl(models, function(x) coef(x)[1]))
+sd(map_dbl(models, function(x) coef(x)[2]))
+
+rss <- map_dbl(models, function(x) sum(resid(x)^2))
+rse <- map_dbl(rss, function(x) sqrt(x/(0.5*dim(wages)[1]-2)))
+boxplot(rss)
+boxplot(rse)
+
+cfs <- map_dbl(models, function(x) coef(x)[2])
+t.test(cfs, mu=0)
+```
+
+## Hypotéza 2
+
+Existuje vzťah medzi výškou hodinovej mzdy a IQ?
+
+$H_0$: Vzťah medzi výškou hodinovej mzdy a dĺžky vzdelania **neexistuje**.
+
+$H_1$: Vzťah medzi výškou hodinovej mzdy a dĺžky vzdelania **existuje**.
+
+### Lineárna regresia
+
+```{r}
+fit <- lm(hour_wage ~ educ, data = wages)
+summary(fit)
+
+plot(fit, pch = 16, col = "blue")
+
+```
+
+```{r}
+ggplot(data = wages, aes(x = hour_wage, y = educ)) + 
+  geom_point(color='blue') +
+  geom_smooth(method = "lm", se = FALSE)
+```
+
+
+```{r}
+data <- map(1:100, function(x) wages[sort(sample(1:dim(wages)[1], size = 0.5*dim(wages)[1])),])
 
 models <- map(data, function(x) lm(x$hour_wage ~ x$educ))
 

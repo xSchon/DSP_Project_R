@@ -783,7 +783,7 @@ odrobených za týždeň.
 ## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
 \end{verbatim}
 
-\includegraphics{Schon_Smrecek_Project_R_files/figure-latex/unnamed-chunk-18-1.pdf}
+\includegraphics{Schon_Smrecek_Project_R_files/figure-latex/unnamed-chunk-17-1.pdf}
 
 \hypertarget{formuluxe1cia-a-ux161tatistickuxe9-overenie-hypotuxe9z}{%
 \section{Formulácia a štatistické overenie
@@ -792,20 +792,18 @@ hypotéz}\label{formuluxe1cia-a-ux161tatistickuxe9-overenie-hypotuxe9z}}
 \hypertarget{hypotuxe9zy}{%
 \subsection{Hypotézy}\label{hypotuxe9zy}}
 
-Existuje vzťah medzi výškou hodinovej mzdy a dĺžkou vzdelania?
+Existuje vzťah medzi výškou hodinovej mzdy a IQ?
 
-\(H_0\): Vzťah medzi výškou hodinovej mzdy a dĺžkou vzdelania
-\textbf{neexistuje}.
+\(H_0\): Vzťah medzi výškou hodinovej mzdy a IQ \textbf{neexistuje}.
 
-\(H_1\): Vzťah medzi výškou hodinovej mzdy a dĺžkou vzdelania
-\textbf{existuje}.
+\(H_1\): Vzťah medzi výškou hodinovej mzdy a IQ \textbf{existuje}.
 
 \hypertarget{lineuxe1rna-regresia}{%
 \subsection{Lineárna regresia}\label{lineuxe1rna-regresia}}
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{fit }\OtherTok{\textless{}{-}} \FunctionTok{lm}\NormalTok{(hour\_wage }\SpecialCharTok{\textasciitilde{}}\NormalTok{ educ, }\AttributeTok{data =}\NormalTok{ wages)}
+\NormalTok{fit }\OtherTok{\textless{}{-}} \FunctionTok{lm}\NormalTok{(hour\_wage }\SpecialCharTok{\textasciitilde{}}\NormalTok{ IQ, }\AttributeTok{data =}\NormalTok{ wages)}
 \FunctionTok{summary}\NormalTok{(fit)}
 \end{Highlighting}
 \end{Shaded}
@@ -813,22 +811,22 @@ Existuje vzťah medzi výškou hodinovej mzdy a dĺžkou vzdelania?
 \begin{verbatim}
 ## 
 ## Call:
-## lm(formula = hour_wage ~ educ, data = wages)
+## lm(formula = hour_wage ~ IQ, data = wages)
 ## 
 ## Residuals:
 ##     Min      1Q  Median      3Q     Max 
-## -5.3827 -1.6945 -0.2152  1.3215 20.2126 
+## -5.2975 -1.6383 -0.3345  1.2991 19.8210 
 ## 
 ## Coefficients:
 ##             Estimate Std. Error t value Pr(>|t|)    
-## (Intercept)  1.46745    0.48330   3.036  0.00246 ** 
-## educ         0.30538    0.03542   8.623  < 2e-16 ***
+## (Intercept) 1.177245   0.530231   2.220   0.0266 *  
+## IQ          0.043475   0.005178   8.395   <2e-16 ***
 ## ---
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
-## Residual standard error: 2.378 on 933 degrees of freedom
-## Multiple R-squared:  0.07381,    Adjusted R-squared:  0.07281 
-## F-statistic: 74.35 on 1 and 933 DF,  p-value: < 2.2e-16
+## Residual standard error: 2.382 on 933 degrees of freedom
+## Multiple R-squared:  0.07024,    Adjusted R-squared:  0.06924 
+## F-statistic: 70.48 on 1 and 933 DF,  p-value: < 2.2e-16
 \end{verbatim}
 
 \begin{Shaded}
@@ -844,7 +842,7 @@ Existuje vzťah medzi výškou hodinovej mzdy a dĺžkou vzdelania?
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\FunctionTok{ggplot}\NormalTok{(}\AttributeTok{data =}\NormalTok{ wages, }\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ hour\_wage, }\AttributeTok{y =}\NormalTok{ educ)) }\SpecialCharTok{+} 
+\FunctionTok{ggplot}\NormalTok{(}\AttributeTok{data =}\NormalTok{ wages, }\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ hour\_wage, }\AttributeTok{y =}\NormalTok{ IQ)) }\SpecialCharTok{+} 
   \FunctionTok{geom\_point}\NormalTok{(}\AttributeTok{color=}\StringTok{\textquotesingle{}blue\textquotesingle{}}\NormalTok{) }\SpecialCharTok{+}
   \FunctionTok{geom\_smooth}\NormalTok{(}\AttributeTok{method =} \StringTok{"lm"}\NormalTok{, }\AttributeTok{se =} \ConstantTok{FALSE}\NormalTok{)}
 \end{Highlighting}
@@ -858,9 +856,9 @@ Existuje vzťah medzi výškou hodinovej mzdy a dĺžkou vzdelania?
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{data }\OtherTok{\textless{}{-}} \FunctionTok{map}\NormalTok{(}\DecValTok{1}\SpecialCharTok{:}\DecValTok{40}\NormalTok{, }\ControlFlowTok{function}\NormalTok{(x) wages[}\FunctionTok{sort}\NormalTok{(}\FunctionTok{sample}\NormalTok{(}\DecValTok{1}\SpecialCharTok{:}\FunctionTok{dim}\NormalTok{(wages)[}\DecValTok{1}\NormalTok{], }\AttributeTok{size =} \FloatTok{0.5}\SpecialCharTok{*}\FunctionTok{dim}\NormalTok{(wages)[}\DecValTok{1}\NormalTok{])),])}
+\NormalTok{data }\OtherTok{\textless{}{-}} \FunctionTok{map}\NormalTok{(}\DecValTok{1}\SpecialCharTok{:}\DecValTok{100}\NormalTok{, }\ControlFlowTok{function}\NormalTok{(x) wages[}\FunctionTok{sort}\NormalTok{(}\FunctionTok{sample}\NormalTok{(}\DecValTok{1}\SpecialCharTok{:}\FunctionTok{dim}\NormalTok{(wages)[}\DecValTok{1}\NormalTok{], }\AttributeTok{size =} \FloatTok{0.5}\SpecialCharTok{*}\FunctionTok{dim}\NormalTok{(wages)[}\DecValTok{1}\NormalTok{])),])}
 
-\NormalTok{models }\OtherTok{\textless{}{-}} \FunctionTok{map}\NormalTok{(data, }\ControlFlowTok{function}\NormalTok{(x) }\FunctionTok{lm}\NormalTok{(x}\SpecialCharTok{$}\NormalTok{hour\_wage }\SpecialCharTok{\textasciitilde{}}\NormalTok{ x}\SpecialCharTok{$}\NormalTok{educ))}
+\NormalTok{models }\OtherTok{\textless{}{-}} \FunctionTok{map}\NormalTok{(data, }\ControlFlowTok{function}\NormalTok{(x) }\FunctionTok{lm}\NormalTok{(x}\SpecialCharTok{$}\NormalTok{hour\_wage }\SpecialCharTok{\textasciitilde{}}\NormalTok{ x}\SpecialCharTok{$}\NormalTok{IQ))}
 
 \NormalTok{listOfFunctions }\OtherTok{\textless{}{-}} \FunctionTok{list}\NormalTok{(}\AttributeTok{coefficients =}\NormalTok{ coef, }\AttributeTok{residuals =}\NormalTok{ residuals)}
 \NormalTok{f }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(x) \{}\FunctionTok{sapply}\NormalTok{(listOfFunctions, }\ControlFlowTok{function}\NormalTok{(g) }\FunctionTok{g}\NormalTok{(x))\}}
@@ -871,7 +869,7 @@ Existuje vzťah medzi výškou hodinovej mzdy a dĺžkou vzdelania?
 \end{Shaded}
 
 \begin{verbatim}
-## [1] 0.4960718
+## [1] 0.5064429
 \end{verbatim}
 
 \begin{Shaded}
@@ -881,7 +879,7 @@ Existuje vzťah medzi výškou hodinovej mzdy a dĺžkou vzdelania?
 \end{Shaded}
 
 \begin{verbatim}
-## [1] 0.03730703
+## [1] 0.005124586
 \end{verbatim}
 
 \begin{Shaded}
@@ -901,6 +899,27 @@ Existuje vzťah medzi výškou hodinovej mzdy a dĺžkou vzdelania?
 \end{Shaded}
 
 \includegraphics{Schon_Smrecek_Project_R_files/figure-latex/unnamed-chunk-21-2.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{cfs }\OtherTok{\textless{}{-}} \FunctionTok{map\_dbl}\NormalTok{(models, }\ControlFlowTok{function}\NormalTok{(x) }\FunctionTok{coef}\NormalTok{(x)[}\DecValTok{2}\NormalTok{])}
+\FunctionTok{t.test}\NormalTok{(cfs, }\AttributeTok{mu=}\DecValTok{0}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+##  One Sample t-test
+## 
+## data:  cfs
+## t = 84.665, df = 99, p-value < 2.2e-16
+## alternative hypothesis: true mean is not equal to 0
+## 95 percent confidence interval:
+##  0.04237070 0.04440436
+## sample estimates:
+##  mean of x 
+## 0.04338753
+\end{verbatim}
 
 \begin{Shaded}
 \begin{Highlighting}[]
