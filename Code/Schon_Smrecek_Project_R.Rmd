@@ -38,6 +38,11 @@ library(gmodels)
 wages <- read_csv("Wages.csv")
 ```
 
+```{r}
+set.seed(54)
+```
+Aby boli výsledky reprodukovateľné, nastavíme seed na konštantný.
+
 # Charakteristika dát
 
 ## Názvy stĺpcov
@@ -181,9 +186,19 @@ age_box <- ggplot(wages) + ggtitle("Boxplot of age") + aes(x = "", y = age) + ge
 age_hist + age_box
 ```
 
+### black
+
+```{r}
+summary(wages$black)
+
+black_hist <- ggplot(wages) + ggtitle("Histogram of black") + aes(x = black) + geom_histogram() + theme_minimal()
+black_hist
+```
+
+
 ## Dáta, ktoré významne vybočujú z priemeru
 
-Takéto dáta možno vidieť pri stĺpcoch wages, hours, IQ a KWW. Keďže sa jedná o skutočné dáta skutočných ľudí, nebudeme ich odstraňovať, ani nahrádzať dátami z okrajov rozdelenia. Predsa len, ide o hodnoty ktoré v skutočnom svete môžu existovať. Predpokladáme, že nejde o chyby v dátach, ale len o anomálie v ľudskej psoločnosti.
+Vychýlené hodnoty možno vidieť pri stĺpcoch wages, hours, IQ a KWW. Keďže sa jedná o skutočné dáta skutočných ľudí, nebudeme ich odstraňovať, ani nahrádzať hraničnými hodnotami rozdelenia. Predsa len, ide o hodnoty ktoré v skutočnom svete môžu existovať. Predpokladáme, že nejde o chyby v dátach, ale len o anomálie v ľudskej spoločnosti.
 
 ## Tranformácia atribútov
 
@@ -202,7 +217,7 @@ hour_wage_hist + hour_wage_box
 
 Pre potreby nášho projektu sme si sformulovali 3 hypotézy. Overujeme ich lineárnym regresným modelom.
 
-$y = \beta_0 + \beta_1 X$
+$Y \approx \beta_0 + \beta_1 X$
 
 Dôležitejším pre nás je koeficient $\beta_1$, keďže určuje sklon priamky. Zisťujeme či má priamka sklon, alebo nie.
 
@@ -544,7 +559,7 @@ t.test(cfs, mu=0)
 
 #### Zhodnotenie
 
-Z grafu je zjavné, že priamka má výrazne stúpajúci charakter. Na základe krížovej validácie vidíme, že model je stabilný. Z boxplotu RSE vidíme, že priemerná RSE je približne rovnaká ako pre podmnožiny, tak aj pre celú množinu. Výsledky sme overili t-testom. Z toho jasne vyplýva, že zamietame $H_0$ v prospech $H_1$. Platí teda $H_1$: Vzťah medzi výškou hodinovej mzdy a IQ **existuje**.
+Z grafu je zjavné, že priamka má výrazne stúpajúci charakter. Na základe krížovej validácie vidíme, že model je stabilný. Z boxplotu RSE vidíme, že priemerná RSE je približne rovnaká ako pre podmnožiny, tak aj pre celú množinu. Výsledky sme overili t-testom. Z toho jasne vyplýva, že zamietame $H_0$ v prospech $H_1$. Platí teda $H_1$: Vzťah medzi IQ a dĺžkou vzdelania **existuje**.
 
 # Záver
 
